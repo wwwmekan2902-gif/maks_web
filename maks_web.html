@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maks üçin Reňkli Web Sahypa</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        color: white;
+        animation: fonColor 10s infinite alternate;
+    }
+    @keyframes fonColor {
+        0% { background-color: #3498db; }
+        25% { background-color: #e74c3c; }
+        50% { background-color: #f1c40f; }
+        75% { background-color: #2ecc71; }
+        100% { background-color: #9b59b6; }
+    }
+    h1 {
+        margin-top: 50px;
+        font-size: 36px;
+        animation: h1Move 5s infinite alternate;
+    }
+    @keyframes h1Move {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(20px); }
+    }
+    .menu {
+        margin-top: 30px;
+    }
+    .menu button {
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+    .menu button:hover {
+        transform: scale(1.2);
+        background-color: #fff;
+        color: #333;
+    }
+</style>
+</head>
+<body>
+<h1>Salam, Maks! Web sahypam işe girýär!</h1>
+<div class="menu">
+    <button onclick="alert('Düwmä basdyň!')">Düwme 34</button>
+    <button onclick="alert('Başga düwme basdyň!')">Düwme 2</button>
+    <button onclick="alert('Ýene bir düwme basdyň!')">Düwme 3</button>
+</div>
+</body>
+</html>

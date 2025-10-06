@@ -3,38 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow VPN Codes</title>
+<title>ShadowVPN Zone</title>
 <style>
-body { font-family: Arial, sans-serif; background: #111; color: #eee; margin:0; padding:0;}
-header { text-align:center; padding:20px; background:#222;}
-h1 { margin:0; color:#fff; }
-#navTabs { display:flex; justify-content:center; margin:10px 0; gap:10px; }
-#navTabs button { padding:10px 20px; cursor:pointer; border:none; border-radius:5px; background:#333; color:#fff; font-weight:bold; }
-#navTabs button.active { background:linear-gradient(45deg,#00ff00,#00ffff); }
-#vpnContainer { display:flex; flex-direction:column; align-items:center; gap:15px; padding:10px; }
-.vpn-card { background:#222; padding:15px; border-radius:10px; width:90%; max-width:500px; position:relative; box-shadow:0 0 10px rgba(0,0,0,0.5);}
-.vpn-code { font-family:monospace; font-size:16px; display:block; margin-bottom:10px; word-break:break-all; }
-.copy-btn { position:absolute; bottom:10px; right:10px; padding:5px 10px; background:#444; color:#fff; border:none; border-radius:5px; cursor:pointer; font-size:14px;}
-.copy-btn:hover { background:#666; }
-.stats { margin-top:10px; font-size:14px; }
-.status { font-weight:bold; padding:2px 6px; border-radius:4px; color:#fff; margin-left:5px;}
-.status.online { background:green; }
-.status.offline { background:red; }
-.date { font-size:12px; color:#aaa; margin-top:5px;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{background:radial-gradient(circle at top,#000,#111,#200);color:#fff;display:flex;flex-direction:column;align-items:center;padding:30px;min-height:100vh;}
+h1{font-size:2.5rem;color:#ff0033;text-shadow:0 0 15px #ff0033;letter-spacing:2px;margin-bottom:25px;}
+.nav{display:flex;gap:15px;margin-bottom:20px;justify-content:center;flex-wrap:wrap;}
+.nav button{background: rgba(255,255,255,0.1); border:1px solid #ff0033; color:#ff0033; padding:8px 18px; border-radius:10px; font-weight:600; cursor:pointer; transition:0.3s;}
+.nav button.active, .nav button:hover{background:#ff0033;color:white;transform:scale(1.05);}
+.vpn-container{width:95%; max-width:750px; display:grid; gap:20px;}
+.vpn-card{background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:15px; padding:20px; box-shadow:0 0 20px rgba(255,0,50,0.2); position:relative;}
+.vpn-card:hover{transform:translateY(-4px);box-shadow:0 0 25px rgba(255,0,60,0.5);}
+.vpn-content{display:flex; flex-direction:column; gap:10px;}
+.vpn-code{font-size:1.1rem; background:rgba(255,255,255,0.1); padding:10px 14px; border-radius:10px; user-select:all; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.copy-btn{background:#ff0033; border:none; padding:6px 12px; border-radius:8px; color:white; font-weight:600; cursor:pointer; transition:0.3s; align-self:flex-end;}
+.copy-btn:hover{background:#ff3355; transform:scale(1.05);}
+.status{display:flex; align-items:center; gap:6px; font-size:0.9rem; font-weight:600; margin-bottom:10px;}
+.status span{width:10px;height:10px;border-radius:50%;display:inline-block;animation:blink 1.2s infinite;}
+.online span{background:#00ff00;box-shadow:0 0 10px #00ff00;}
+.offline span{background:#ff0033;box-shadow:0 0 10px #ff0033;}
+.stats{font-size:0.9rem; color:#ffcc00; margin-top:5px;}
+footer{margin-top:40px; text-align:center; color:#777; font-size:0.9rem;}
+.download-section{text-align:center; margin-top:50px; background:rgba(255,255,255,0.05); padding:25px; border-radius:15px; box-shadow:0 0 25px rgba(255,0,0,0.2); width:90%; max-width:600px;}
+.download-btn{background:#ff0033;color:white;text-decoration:none;padding:12px 25px;border-radius:10px;font-weight:bold;display:inline-block;margin-top:10px;transition:0.3s;box-shadow:0 0 15px #ff0033;}
+.download-btn:hover{background:#ff3355; transform:scale(1.05); box-shadow:0 0 25px #ff3355;}
+.telegram-section{text-align:center;margin-top:40px;}
+.telegram-section a{background:#00bfff;color:white;text-decoration:none;padding:12px 25px;border-radius:10px;font-weight:bold;display:inline-block;transition:0.3s;box-shadow:0 0 15px #00bfff;}
+.telegram-section a:hover{background:#33ccff;transform:scale(1.05);box-shadow:0 0 25px #33ccff;}
 </style>
 </head>
 <body>
 
-<header>
-<h1>Shadow VPN Kodlary</h1>
-<div>Senä: <span id="dateToday"></span></div>
-</header>
+<h1>SHADOW.VPN ZONE</h1>
+<div class="nav" id="navTabs"></div>
+<div class="vpn-container" id="vpnContainer"></div>
 
-<div id="navTabs"></div>
-<div id="vpnContainer"></div>
+<div class="download-section">
+  <h2 style="color:#ff0033;">ShadowSocks APK Ýükle</h2>
+  <a href="https://play.google.com/store/apps/details?id=com.github.shadowsocks" target="_blank" class="download-btn">📥 ÝÜKLE (APK)</a>
+</div>
+
+<div class="telegram-section">
+  <h2 style="color:#00bfff;">Soraglaryňyz üçin</h2>
+  <a href="https://t.me/TIGER_real" target="_blank">📲 Telegramda Tapyň</a>
+</div>
+
+<footer>Maks tarapyndan döredildi © <span id="year"></span></footer>
 
 <script>
-// === VPN Bölümleri ===
+const vpnSections=[
+  [
+    { code:"VPN-TM-1001-XYZABCDEFGHIJKLMNOP", status:"online" },
+    { code:"VPN-TM-1002-ABC1234567890XYZ", status:"offline" },
+    { code:"VPN-TM-1003-GHT0987654321", status:"online" }
+  ],
+  [
+    { code:"VPN-TM-2001-XYZ1234567890ABC", status:"offline" },
+    { code:"VPN-TM-2002-ABC9876543210XYZ", status:"online" },
+    { code:"VPN-TM-2003-GHT5678901234", status:"offline" }
+  ],
+  [
+    { code:"VPN-TM-3001-XYZ1112131415", status:"online" },
+    { code:"VPN-TM-3002-ABC1617181920", status:"offline" },
+    { code:"VPN-TM-3003-GHT2122232425", status:"online" }
+  ]
+];
+
+const STORAGE_KEY = "shadowvpn_stats_v3";
+function loadStats(){ const raw = localStorage.getItem(STORAGE_KEY); try{ return raw?JSON.parse(raw):{} } catch(e){return{}} }
+function saveStats(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+let stats = loadStats();
+function ensureCode(code){ if(!stats[code]) stats[code]={views:0,copies:0,seen:false}; }
+
+function getTodayDate(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+const navTabs=document.getElementById("navTabs");
+const vpnContainer=document.getElementById("vpnContainer");
+
+vpnSections.forEach((_,idx)=>{
+  const btn=document.createElement("button");
+  btn.textContent=idx+1;
+  btn.onclick=()=>showSection(idx);
+  if(idx===0) btn.classList.add("active");
+  navTabs.appendChild(btn);
+});
+
+function showSection(i){
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".nav button")[i].classList.add("active");
+  vpnContainer.innerHTML="";
+  vpnSections[i].forEach(item=>{
+    ensureCode(item.code);
+    if(!stats[item.code].seen){ stats[item.code].views++; stats[item.code].seen=true; }
+    const card=document.createElement("div");
+    card.className="vpn-card";
+
+    // 10-15 harf preview
+    const previewLength = 15;
+    const displayCode = item.code.substring(0, previewLength) + (item.code.length>previewLength ? '...' : '');
+
+    card.innerHTML=`
+      <div class="status ${item.status}"><span></span>${item.status.toUpperCase()}</div>
+      <div class="vpn-content">
+        <span class="vpn-code" title="${item.code}">${displayCode}</span>
+        <button class="copy-btn" data-code="${item.code}">Kopyala</button>
+        <div class="date">Goýlan senesi: ${getTodayDate()}</div>
+        <div class="stats">👁️ Görlen: <span class="views">${stats[item.code].views}</span> | 📋 Kopyalandy: <span class="copies">${stats[item.code].copies}</span></div>
+      </div>
+    `;
+    const copyBtn=card.querySelector(".copy-btn");
+    copyBtn.addEventListener("click",()=>copyAndCount(item.code,copyBtn));
+    vpnContainer.appendChild(card);
+  });
+  saveStats(stats);
+}
+
+function copyAndCount(code,btn){
+  const textarea=document.createElement("textarea");
+  textarea.value=code;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(textarea);
+  ensureCode(code);
+  stats[code].copies++;
+  saveStats(stats);
+  const parent = btn.closest(".vpn-card");
+  if(parent) parent.querySelector(".copies").textContent = stats[code].copies;
+  alert("Kopyalandy: "+code);
+}
+
+showSection(0);
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>// === VPN Bölümleri ===
 const vpnSections = [
   [ // Bölüm 1
     {code:'VPN-TM-1001-XYZ', date:'2025-10-06', online:true},

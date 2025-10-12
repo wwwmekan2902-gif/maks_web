@@ -30,13 +30,30 @@ footer{margin-top:40px; text-align:center; color:#777; font-size:0.9rem;}
 .telegram-section{text-align:center;margin-top:40px;}
 .telegram-section a{background:#00bfff;color:white;text-decoration:none;padding:12px 25px;border-radius:10px;font-weight:bold;display:inline-block;transition:0.3s;box-shadow:0 0 15px #00bfff;}
 .telegram-section a:hover{background:#33ccff;transform:scale(1.05);box-shadow:0 0 25px #33ccff;}
+.counter-box{text-align:center; margin-bottom:20px; background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; box-shadow:0 0 15px rgba(255,0,50,0.2); width:90%; max-width:400px;}
+.counter-box #view-count{font-size:2rem; color:#ff0033; font-weight:600;}
+.counter-box p{font-size:0.9rem; color:#fff; margin-top:5px;}
+.logo-section{text-align:center; margin-top:30px; margin-bottom:30px;}
+.logo-section img{max-width:200px; height:auto; border-radius:10px; box-shadow:0 0 15px rgba(255,0,50,0.3); transition:transform 0.3s;}
+.logo-section img:hover{transform:scale(1.05);}
+@keyframes blink {0%, 100% {opacity: 1;} 50% {opacity: 0.5;}}
 </style>
 </head>
 <body>
 
-<h1>🌐SHADOW.VPN ZONE {keys}</h1>
+<h1>🌐 SHADOW.VPN ZONE {keys}</h1>
+
+<div class="counter-box">
+  <div id="view-count">0</div>
+  <p>Sahypany görenleriň sany</p>
+</div>
+
 <div class="nav" id="navTabs"></div>
 <div class="vpn-container" id="vpnContainer"></div>
+
+<div class="logo-section">
+  <img src="https://example.com/shadowsocks-logo.png" alt="ShadowSocks Logo">
+</div>
 
 <div class="download-section">
   <h2 style="color:#ff0033;">ShadowSocks APK Ýükle</h2>
@@ -70,77 +87,122 @@ const vpnSections=[
 ];
 
 const STORAGE_KEY = "shadowvpn_stats_v3";
-function loadStats(){ const raw = localStorage.getItem(STORAGE_KEY); try{ return raw?JSON.parse(raw):{} } catch(e){return{}} }
-function saveStats(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); }
+const VIEW_COUNT_KEY = "page_view_count";
+const CODE_HASH_KEY = "vpn_code_hash";
+
+// Simple hash function for vpnSections
+function hashString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0; // Convert to 32-bit integer
+  }
+  return hash.toString();
+}
+
+function loadStats(){ 
+  const raw = localStorage.getItem(STORAGE_KEY); 
+  try{ return raw ? JSON.parse(raw) : {} } catch(e){ return {} }
+}
+function saveStats(obj){ 
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); 
+}
+function loadViewCount(){ 
+  const count = localStorage.getItem(VIEW_COUNT_KEY); 
+  return count ? parseInt(count) : 0; 
+}
+function saveViewCount(count){ 
+  localStorage.setItem(VIEW_COUNT_KEY, count); 
+}
+function loadCodeHash(){ 
+  return localStorage.getItem(CODE_HASH_KEY) || ""; 
+}
+function saveCodeHash(hash){ 
+  localStorage.setItem(CODE_HASH_KEY, hash); 
+}
+
 let stats = loadStats();
-function ensureCode(code){ if(!stats[code]) stats[code]={views:0,copies:0,seen:false}; }
+function ensureCode(code){ 
+  if(!stats[code]) stats[code]={views:0,copies:0,seen:false}; 
+}
 
 function getTodayDate(){
-  const d=new Date();
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,'0');
-  const day=String(d.getDate()).padStart(2,'0');
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
   return `${y}-${m}-${day}`;
 }
 
-const navTabs=document.getElementById("navTabs");
-const vpnContainer=document.getElementById("vpnContainer");
+// Check if vpnSections has changed and reset view count if necessary
+const currentCodeHash = hashString(JSON.stringify(vpnSections));
+const storedCodeHash = loadCodeHash();
+let viewCount = loadViewCount();
+if (currentCodeHash !== storedCodeHash) {
+  viewCount = 0; // Reset view count on code change
+  saveCodeHash(currentCodeHash);
+}
+viewCount++;
+saveViewCount(viewCount);
+document.getElementById("view-count").textContent = viewCount;
 
-vpnSections.forEach((_,idx)=>{
-  const btn=document.createElement("button");
-  btn.textContent=idx+1;
-  btn.onclick=()=>showSection(idx);
-  if(idx===0) btn.classList.add("active");
+const navTabs = document.getElementById("navTabs");
+const vpnContainer = document.getElementById("vpnContainer");
+
+vpnSections.forEach((_, idx) => {
+  const btn = document.createElement("button");
+  btn.textContent = idx + 1;
+  btn.onclick = () => showSection(idx);
+  if (idx === 0) btn.classList.add("active");
   navTabs.appendChild(btn);
 });
 
-function showSection(i){
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+function showSection(i) {
+  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
   document.querySelectorAll(".nav button")[i].classList.add("active");
-  vpnContainer.innerHTML="";
-  vpnSections[i].forEach(item=>{
+  vpnContainer.innerHTML = "";
+  vpnSections[i].forEach(item => {
     ensureCode(item.code);
-    if(!stats[item.code].seen){ stats[item.code].views++; stats[item.code].seen=true; }
-    const card=document.createElement("div");
-    card.className="vpn-card";
+    if (!stats[item.code].seen) { stats[item.code].views++; stats[item.code].seen = true; }
+    const card = document.createElement("div");
+    card.className = "vpn-card";
 
-    // 10-15 harf preview
     const previewLength = 15;
-    const displayCode = item.code.substring(0, previewLength) + (item.code.length>previewLength ? '...' : '');
+    const displayCode = item.code.substring(0, previewLength) + (item.code.length > previewLength ? '...' : '');
 
-    card.innerHTML=`
+    card.innerHTML = `
       <div class="status ${item.status}"><span></span>${item.status.toUpperCase()}</div>
       <div class="vpn-content">
         <span class="vpn-code" title="${item.code}">${displayCode}</span>
         <button class="copy-btn" data-code="${item.code}">Kopyala</button>
         <div class="date">Goýlan senesi: ${getTodayDate()}</div>
-        <div class="stats"></span> 🎖️Shadow socks • code </div>
+        <div class="stats"><span class="copies">${stats[item.code].copies}</span> 👀Görlen. Shadow socks • code </div>
       </div>
     `;
-    const copyBtn=card.querySelector(".copy-btn");
-    copyBtn.addEventListener("click",()=>copyAndCount(item.code,copyBtn));
+    const copyBtn = card.querySelector(".copy-btn");
+    copyBtn.addEventListener("click", () => copyAndCount(item.code, copyBtn));
     vpnContainer.appendChild(card);
   });
   saveStats(stats);
 }
 
-function copyAndCount(code,btn){
-  const textarea=document.createElement("textarea");
-  textarea.value=code;
+function copyAndCount(code, btn) {
+  const textarea = document.createElement("textarea");
+  textarea.value = code;
   document.body.appendChild(textarea);
   textarea.select();
-  try{document.execCommand('copy');}catch(e){}
+  try { document.execCommand('copy'); } catch (e) {}
   document.body.removeChild(textarea);
   ensureCode(code);
   stats[code].copies++;
   saveStats(stats);
   const parent = btn.closest(".vpn-card");
-  if(parent) parent.querySelector(".copies").textContent = stats[code].copies;
-  alert("Kopyalandy: "+code);
+  if (parent) parent.querySelector(".copies").textContent = stats[code].copies;
+  alert("Kopyalandy: " + code);
 }
 
 showSection(0);
-document.getElementById("year").textContent=new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>

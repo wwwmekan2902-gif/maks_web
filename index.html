@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iňlis dili · Sintaksis we Zamanlar · Doly gollanma</title>
+<style>
+    /* ============ RESET & BASE ============ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'Segoe UI', Roboto, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+        background: #eef3f9;
+        color: #0d2233;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ============ TOP BAR ============ */
+    header.topbar {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, .93);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid #dbe6f1;
+        box-shadow: 0 2px 12px rgba(15, 61, 100, .05);
+    }
+    #menuBtn {
+        width: 46px; height: 46px; flex: 0 0 auto;
+        border-radius: 14px; border: 1px solid #cfe0f0;
+        background: linear-gradient(180deg, #ffffff, #eef5fc);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px; line-height: 1; color: #0f3d64;
+        cursor: pointer; transition: .18s;
+    }
+    #menuBtn:hover { background: linear-gradient(180deg, #eef5fc, #dceaf7); transform: translateY(-1px); }
+    #menuBtn:active { transform: translateY(0) scale(.96); }
+
+    .brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+    .logo {
+        width: 40px; height: 40px; flex: 0 0 auto; border-radius: 13px;
+        background: linear-gradient(135deg, #0f3d64, #2a7fc1);
+        color: #fff; font-weight: 800; font-size: 15px; letter-spacing: .5px;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 4px 12px rgba(21, 101, 168, .35);
+    }
+    .brand-text { min-width: 0; }
+    .brand-text h1 {
+        font-size: 1rem; font-weight: 800; color: #0f3d64;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        letter-spacing: -.2px;
+    }
+    .brand-text span {
+        display: block; font-size: .72rem; font-weight: 700; color: #6b8aa3;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    #langBtn {
+        flex: 0 0 auto; padding: 10px 15px; border-radius: 13px;
+        border: 1px solid #0f3d64; background: #0f3d64; color: #fff;
+        font-weight: 800; font-size: .82rem; cursor: pointer;
+        white-space: nowrap; transition: .18s; letter-spacing: .2px;
+    }
+    #langBtn:hover { background: #143048; }
+    #langBtn.on {
+        background: #0f7a52; border-color: #0f7a52;
+        box-shadow: 0 4px 12px rgba(15, 122, 82, .3);
+    }
+
+    /* ============ SIDEBAR ============ */
+    .sidebar {
+        position: fixed; top: 0; left: 0; height: 100%;
+        width: 310px; max-width: 86vw;
+        background: linear-gradient(180deg, #0c2f4d 0%, #0a2540 100%);
+        color: #dbeeff;
+        transform: translateX(-103%);
+        transition: transform .34s cubic-bezier(.4, 0, .2, 1);
+        z-index: 100; overflow-y: auto;
+        padding: 16px 14px 50px;
+        box-shadow: 8px 0 30px rgba(6, 20, 32, .35);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-thumb { background: #2a7fc1; border-radius: 6px; }
+
+    .side-head {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 10px; padding: 4px 6px 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, .12); margin-bottom: 12px;
+    }
+    .side-head .t { display: flex; align-items: center; gap: 9px; }
+    .side-head .t b { font-size: .95rem; font-weight: 800; color: #fff; }
+    .side-head .t small { display: block; font-size: .68rem; color: #86b8e0; font-weight: 700; }
+    #closeBtn {
+        width: 34px; height: 34px; border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, .18);
+        background: rgba(255, 255, 255, .06);
+        color: #cfe6fb; font-size: 17px; cursor: pointer; line-height: 1; transition: .18s;
+    }
+    #closeBtn:hover { background: rgba(255, 255, 255, .16); }
+
+    .nav-group {
+        font-size: .68rem; letter-spacing: 1.5px; text-transform: uppercase;
+        color: #7fb2dd; margin: 18px 0 7px 12px; font-weight: 800;
+    }
+    .nav-item {
+        display: flex; align-items: center; gap: 10px; width: 100%;
+        padding: 11px 13px; border-radius: 12px; border: none;
+        background: transparent; color: #cfe6fb;
+        font-size: .9rem; font-weight: 700; font-family: inherit;
+        cursor: pointer; text-align: left; transition: .16s; margin-bottom: 2px;
+    }
+    .nav-item:hover { background: rgba(255, 255, 255, .09); color: #fff; }
+    .nav-item.active {
+        background: linear-gradient(90deg, #2a7fc1, #1b5b91);
+        color: #fff; box-shadow: 0 5px 14px rgba(0, 0, 0, .3);
+    }
+    .nav-item .n {
+        font-size: .68rem; font-weight: 800; min-width: 26px; height: 22px;
+        border-radius: 7px; background: rgba(255, 255, 255, .1);
+        display: flex; align-items: center; justify-content: center;
+        padding: 0 5px; flex: 0 0 auto;
+    }
+    .nav-item.active .n { background: rgba(255, 255, 255, .24); }
+    .nav-item.all-item {
+        background: linear-gradient(135deg, #0f7a52, #13a06b);
+        color: #fff; margin-bottom: 6px;
+        box-shadow: 0 5px 14px rgba(15, 122, 82, .3);
+    }
+    .nav-item.all-item:hover { filter: brightness(1.08); }
+
+    /* ============ OVERLAY ============ */
+    .overlay {
+        position: fixed; inset: 0; background: rgba(6, 20, 32, .55);
+        opacity: 0; visibility: hidden; transition: .3s; z-index: 90;
+        backdrop-filter: blur(2px);
+    }
+    .overlay.show { opacity: 1; visibility: visible; }
+
+    /* ============ MAIN ============ */
+    main { max-width: 900px; margin: 0 auto; padding: 18px 14px 70px; }
+
+    .hero {
+        background: linear-gradient(135deg, #0f3d64, #2a7fc1);
+        border-radius: 22px; padding: 24px 22px; color: #fff;
+        margin-bottom: 22px; box-shadow: 0 10px 28px rgba(15, 61, 100, .22);
+        position: relative; overflow: hidden;
+    }
+    .hero::after {
+        content: "EN"; position: absolute; right: -10px; bottom: -32px;
+        font-size: 110px; font-weight: 900; color: rgba(255, 255, 255, .07);
+        letter-spacing: -6px; pointer-events: none;
+    }
+    .hero h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -.3px; }
+    .hero p { font-size: .92rem; font-weight: 600; color: #d5e9fb; max-width: 90%; }
+    .hint {
+        display: inline-flex; align-items: center; gap: 7px; margin-top: 14px;
+        background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .25);
+        padding: 7px 13px; border-radius: 30px; font-size: .78rem; font-weight: 700;
+    }
+
+    /* ============ GROUP TITLES ============ */
+    .group-title {
+        display: none; align-items: center; gap: 12px;
+        margin: 30px 0 14px; font-size: 1.05rem; font-weight: 900;
+        color: #0f3d64; letter-spacing: .3px; text-transform: uppercase;
+    }
+    .group-title::after {
+        content: ""; flex: 1; height: 2px; border-radius: 2px;
+        background: linear-gradient(90deg, #b9d1e3, transparent);
+    }
+    body.view-all .group-title { display: flex; }
+
+    /* ============ CARD ============ */
+    .card {
+        background: #fff; border-radius: 20px; padding: 22px 20px 24px;
+        margin-bottom: 20px; border: 1px solid #e2ecf6;
+        box-shadow: 0 6px 20px rgba(15, 61, 100, .07);
+        animation: fadeUp .32s ease both;
+    }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .card-head {
+        display: flex; align-items: center; gap: 12px;
+        padding-bottom: 12px; margin-bottom: 14px; border-bottom: 2px solid #eef4fa;
+    }
+    .num {
+        flex: 0 0 auto; min-width: 38px; height: 38px; padding: 0 7px;
+        border-radius: 12px; background: linear-gradient(135deg, #0f3d64, #2a7fc1);
+        color: #fff; font-weight: 800; font-size: .82rem;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 4px 10px rgba(21, 101, 168, .28);
+    }
+    .card-head h2 {
+        font-size: 1.13rem; font-weight: 800; color: #0f3d64;
+        line-height: 1.3; letter-spacing: -.2px;
+    }
+    .card-head h2 small {
+        display: block; font-size: .74rem; font-weight: 700;
+        color: #7d9bb3; margin-top: 2px; letter-spacing: 0;
+    }
+
+    /* ============ TEXT PAIRS ============ */
+    .en {
+        display: block; font-weight: 600; font-size: .955rem;
+        color: #10293c; margin: 7px 0;
+    }
+    .en b, .en strong { font-weight: 800; color: #0f3d64; }
+    .tk {
+        display: none; font-weight: 600; font-size: .935rem;
+        color: #0d5c3f; background: #e8f6ee;
+        border-left: 4px solid #16a06b;
+        border-radius: 0 12px 12px 0;
+        padding: 8px 13px; margin: 5px 0 11px;
+    }
+    body.show-tkm .tk { display: block; }
+
+    /* ============ SUB HEADINGS ============ */
+    h3.sub {
+        font-size: 1rem; font-weight: 800; color: #1565a8;
+        margin: 18px 0 8px; display: flex; align-items: center; gap: 8px;
+    }
+    h3.sub::before {
+        content: ""; width: 5px; height: 17px; border-radius: 3px;
+        background: #1565a8; flex: 0 0 auto;
+    }
+
+    /* ============ FORMULA ============ */
+    .formula {
+        font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
+        background: #0f2d45; color: #8fe3b8; padding: 12px 15px;
+        border-radius: 13px; font-weight: 700; font-size: .88rem;
+        margin: 11px 0; overflow-x: auto; white-space: nowrap;
+        letter-spacing: .4px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+    }
+
+    /* ============ EXAMPLE BOX ============ */
+    .ex {
+        background: #f4f8fc; border-left: 4px solid #c2410c;
+        border-radius: 0 13px 13px 0; padding: 11px 15px; margin: 11px 0;
+    }
+    .ex .en { font-style: italic; margin: 4px 0; }
+    .ex .tk { margin: 4px 0 8px; }
+    .ex .en:last-child, .ex .tk:last-child { margin-bottom: 0; }
+
+    /* ============ NOTE ============ */
+    .note {
+        background: #fff8e8; border: 1px dashed #e0a83c;
+        border-radius: 13px; padding: 11px 15px; margin: 12px 0;
+    }
+    .note .en { margin: 3px 0; }
+    .note .tk {
+        background: #fdf0d5; border-left-color: #d99b2b;
+        color: #7a5109; margin: 4px 0 8px;
+    }
+
+    /* ============ LISTS ============ */
+    ul.list, ol.list { list-style: none; margin: 9px 0; padding: 0; }
+    ul.list li, ol.list li {
+        position: relative; padding-left: 24px; margin-bottom: 11px;
+    }
+    ul.list li::before {
+        content: "▸"; position: absolute; left: 5px; top: 0;
+        color: #2a7fc1; font-weight: 900;
+    }
+    ol.list { counter-reset: item; }
+    ol.list li { counter-increment: item; }
+    ol.list li::before {
+        content: counter(item) "."; position: absolute; left: 2px; top: 0;
+        color: #2a7fc1; font-weight: 900; font-size: .9rem;
+    }
+    ul.list li .en, ol.list li .en { margin: 3px 0; }
+    ul.list li .tk, ol.list li .tk { margin: 4px 0 8px; }
+
+    /* ============ BADGE ============ */
+    .badge {
+        display: inline-block; background: #e0e7ff; color: #1e3a8a;
+        padding: 2px 9px; border-radius: 7px; font-size: .76rem;
+        font-weight: 800; margin-left: 6px; vertical-align: middle; white-space: nowrap;
+    }
+    .badge.green { background: #d9f5e7; color: #0d5c3f; }
+    .badge.orange { background: #ffe8d6; color: #9a3d05; }
+
+    /* ============ FOOTER ============ */
+    footer {
+        max-width: 900px; margin: 0 auto; padding: 26px 20px 50px;
+        text-align: center; font-size: .84rem; font-weight: 700;
+        color: #6b8aa3; border-top: 1px solid #dbe6f1;
+    }
+    footer b { color: #0f3d64; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 520px) {
+        .brand-text span { display: none; }
+        .brand-text h1 { font-size: .9rem; }
+        #langBtn { padding: 9px 11px; font-size: .75rem; }
+        #menuBtn { width: 42px; height: 42px; font-size: 20px; }
+        .logo { width: 36px; height: 36px; font-size: 13px; }
+        .card { padding: 18px 15px 20px; border-radius: 17px; }
+        .card-head h2 { font-size: 1.02rem; }
+        .hero h2 { font-size: 1.18rem; }
+        main { padding: 14px 10px 60px; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<header class="topbar">
+    <button id="menuBtn" aria-label="Menýu">☰</button>
+    <div class="brand">
+        <div class="logo">EN</div>
+        <div class="brand-text">
+            <h1>Iňlis dili · Sintaksis we Zamanlar</h1>
+            <span>English Syntax &amp; Tenses · doly gollanma</span>
+        </div>
+    </div>
+    <button id="langBtn">🇹🇲 Türkmençe görkez</button>
+</header>
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+    <div class="side-head">
+        <div class="t">
+            <div class="logo" style="width:34px;height:34px;font-size:12px;">EN</div>
+            <div>
+                <b>Mowzuklar</b>
+                <small>26 tema · 2 dil</small>
+            </div>
+        </div>
+        <button id="closeBtn" aria-label="Ýap">✕</button>
+    </div>
+
+    <button class="nav-item all-item active" data-topic="all">📚 Hemmesi</button>
+
+    <div class="nav-group">Sintaksis</div>
+    <button class="nav-item" data-topic="syntax"><span class="n">01</span> Syntax &amp; Sentence</button>
+    <button class="nav-item" data-topic="sentence-types"><span class="n">02</span> Sözlemleriň görnüşleri</button>
+    <button class="nav-item" data-topic="parts"><span class="n">03</span> Sözlemiň bölekleri</button>
+    <button class="nav-item" data-topic="subject"><span class="n">04</span> The Subject (Eýe)</button>
+    <button class="nav-item" data-topic="predicate"><span class="n">05</span> The Predicate (Habar)</button>
+    <button class="nav-item" data-topic="simple-predicate"><span class="n">06</span> Simple Predicate</button>
+    <button class="nav-item" data-topic="phraseological"><span class="n">07</span> Phraseological Predicate</button>
+    <button class="nav-item" data-topic="compound-predicate"><span class="n">08</span> Compound Predicate</button>
+    <button class="nav-item" data-topic="predicative"><span class="n">09</span> Predicative</button>
+    <button class="nav-item" data-topic="modal-predicate"><span class="n">10</span> Compound Verbal Modal Predicate</button>
+
+    <div class="nav-group">Present zamanlar</div>
+    <button class="nav-item" data-topic="present-simple"><span class="n">11</span> Present Simple</button>
+    <button class="nav-item" data-topic="present-continuous"><span class="n">12</span> Present Continuous</button>
+    <button class="nav-item" data-topic="present-perfect"><span class="n">13</span> Present Perfect</button>
+    <button class="nav-item" data-topic="present-perfect-continuous"><span class="n">14</span> Present Perfect Continuous</button>
+
+    <div class="nav-group">Past zamanlar</div>
+    <button class="nav-item" data-topic="past-simple"><span class="n">15</span> Past Simple</button>
+    <button class="nav-item" data-topic="past-continuous"><span class="n">16</span> Past Continuous</button>
+    <button class="nav-item" data-topic="past-perfect"><span class="n">17</span> Past Perfect</button>
+    <button class="nav-item" data-topic="past-perfect-continuous"><span class="n">18</span> Past Perfect Continuous</button>
+
+    <div class="nav-group">Future zamanlar</div>
+    <button class="nav-item" data-topic="future-indefinite"><span class="n">19</span> Future Indefinite</button>
+    <button class="nav-item" data-topic="future-continuous"><span class="n">20</span> Future Continuous</button>
+    <button class="nav-item" data-topic="future-perfect"><span class="n">21</span> Future Perfect</button>
+    <button class="nav-item" data-topic="future-perfect-continuous"><span class="n">22</span> Future Perfect Continuous</button>
+
+    <div class="nav-group">Future in the Past</div>
+    <button class="nav-item" data-topic="fi-past"><span class="n">23</span> Future Indefinite in the Past</button>
+    <button class="nav-item" data-topic="fc-past"><span class="n">24</span> Future Continuous in the Past</button>
+    <button class="nav-item" data-topic="fp-past"><span class="n">25</span> Future Perfect in the Past</button>
+    <button class="nav-item" data-topic="fpc-past"><span class="n">26</span> Future Perfect Continuous in the Past</button>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- ================= MAIN ================= -->
+<main>
+
+    <div class="hero">
+        <h2>Iňlis dili: Sintaksis we Zamanlar</h2>
+        <p>Doly düşündiriş · düzgünler · mysallar · türkmençe terjimeler</p>
+        <div class="hint">☰ Menýudan tema saýlaň &nbsp;·&nbsp; 🇹🇲 terjime üçin ýokardaky düwmä basyň</div>
+    </div>
+
+    <!-- ======== GROUP: SINTAKSIS ======== -->
+    <div class="group-title">📘 Sintaksis</div>
+
+    <!-- 01 -->
+    <section class="card" data-topic="syntax">
+        <div class="card-head">
+            <span class="num">01</span>
+            <h2>Syntax &amp; Sentence<small>Sintaksis we sözlem</small></h2>
+        </div>
+
+        <p class="en"><b>Syntax</b> is the branch of grammar which studies the structure of sentences and the rules according to which words are combined into sentences.</p>
+        <p class="tk">Sintaksis — sözlemleriň gurluşyny we sözleriň sözleme birleşmeginiň kadalaryny öwrenýän grammatika bölümi.</p>
+
+        <p class="en"><b>Sentence</b> is a unit of speech whose grammatical structure conforms to the rules of the language and which expresses a complete thought.</p>
+        <p class="tk">Sözlem — grammatik gurluşy diliň kadalaryna laýyk gelýän we doly pikiri aňladýan sözleýiş birligi.</p>
+
+        <h3 class="sub">Sentence types according to structure</h3>
+        <p class="en">According to their structure, sentences are divided into two main types:</p>
+        <p class="tk">Gurluşyna görä sözlemler iki esasy görnüşe bölünýär:</p>
+
+        <ul class="list">
+            <li>
+                <span class="en"><b>Simple sentences</b> — have one subject-predicate group.</span>
+                <span class="tk"><b>Ýönekeý sözlemler</b> — bir eýe-habar toparyndan ybarat bolýar.</span>
+            </li>
+            <li>
+                <span class="en"><b>Composite sentences</b> — divided into two groups: <em>Compound</em> and <em>Complex</em> sentences.</span>
+                <span class="tk"><b>Goşma sözlemler</b> — iki topara bölünýär: <em>düzme</em> we <em>çylşyrymly</em> sözlemler.</span>
+            </li>
+        </ul>
+
+        <div class="ex">
+            <p class="en">I read a book. <span class="badge green">Simple</span></p>
+            <p class="tk">Men kitap okaýaryn.</p>
+
+            <p class="en">I was tired because I worked for 7 hours. <span class="badge orange">Complex</span></p>
+            <p class="tk">Men ýadawdym, çünki 7 sagat işledim.</p>
+
+            <p class="en">Jeren and her brother left their home and went to the park. <span class="badge green">Simple</span></p>
+            <p class="tk">Jeren we onuň dogany öýlerinden çykyp, seýilgähe gitdiler.</p>
+
+            <p class="en">Jeren left her home and her brother went to the park. <span class="badge orange">Compound</span></p>
+            <p class="tk">Jeren öýünden gitdi, dogany bolsa seýilgähe gitdi.</p>
+        </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="card" data-topic="sentence-types">
+        <div class="card-head">
+            <span class="num">02</span>
+            <h2>Classification of Simple Sentences<small>Ýönekeý sözlemleriň klassifikasiýasy</small></h2>
+        </div>
+
+        <p class="en">Simple sentences are divided into types according to their <b>structure</b> and according to their <b>purpose</b>.</p>
+        <p class="tk">Ýönekeý sözlemler <b>gurluşyna</b> we <b>maksadyna</b> görä görnüşlere bölünýär.</p>
+
+        <h3 class="sub">A. According to structure</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>Two-member sentence</b> — contains both Subject and Predicate (S + P).</span>
+                <span class="tk"><b>Iki agzaly sözlem</b> — eýäni we habary bilelikde saklaýar (E + H).</span>
+            </li>
+            <li>
+                <span class="en"><b>One-member sentence</b> — contains only one main part: either only the Subject or only the Predicate.</span>
+                <span class="tk"><b>Bir agzaly sözlem</b> — diňe bir baş agzany saklaýar: ýa diňe eýe, ýa diňe habar.</span>
+            </li>
+        </ol>
+
+        <div class="note">
+            <p class="en"><b>Note:</b> One-member sentences have a main part which is neither subject nor predicate. This type of sentence is mainly used in literary language and in descriptions.</p>
+            <p class="tk"><b>Bellik:</b> Bir agzaly sözlemlerde baş agza ne eýe, ne habar bolýar. Bu görnüş esasan çeper edebiýatda we suratlandyrmalarda ulanylýar.</p>
+        </div>
+
+        <div class="ex">
+            <p class="en">Night. Complete silence. Lights in the distance. In this atmosphere, he felt lonely.</p>
+            <p class="tk">Gije. Doly ümsümlik. Uzakda yşyklar. Bu ýagdaýda ol özüni ýalňyz duýdy.</p>
+        </div>
+
+        <p class="en">Both one-member and two-member sentences can be:</p>
+        <p class="tk">Bir agzaly we iki agzaly sözlemler aşakdakylar bolup biler:</p>
+
+        <ul class="list">
+            <li>
+                <span class="en"><b>Unextended sentences</b> — consist only of the main parts.</span>
+                <span class="tk"><b>Ýaýbaň däl sözlemler</b> — diňe baş agzalardan durýar.</span>
+            </li>
+            <li>
+                <span class="en"><b>Extended sentences</b> — have at least one secondary part.</span>
+                <span class="tk"><b>Ýaýbaň sözlemler</b> — iň bolmanda bir ikinji derejeli agzasy bar.</span>
+            </li>
+            <li>
+                <span class="en"><b>Complete</b> and <b>Incomplete</b> sentences.</span>
+                <span class="tk"><b>Doly</b> we <b>doly däl</b> sözlemler.</span>
+            </li>
+        </ul>
+
+        <h3 class="sub">B. According to purpose</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>Declarative sentences</b> — used to state information.</span>
+                <span class="tk"><b>Habarly sözlemler</b> — maglumat beýan etmek üçin ulanylýar.</span>
+                <div class="ex">
+                    <p class="en">I go to the university.</p>
+                    <p class="tk">Men uniwersitete gidýärin.</p>
+                    <p class="en">I don't have a car.</p>
+                    <p class="tk">Meniň maşynym ýok.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Interrogative sentences</b> — used to ask questions.</span>
+                <span class="tk"><b>Sorag sözlemler</b> — sorag bermek üçin ulanylýar.</span>
+                <div class="ex">
+                    <p class="en">Are you ready?</p>
+                    <p class="tk">Sen taýýarmy?</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Imperative sentences</b> — used to denote commands or requests.</span>
+                <span class="tk"><b>Buýruk sözlemler</b> — buýruk ýa haýyş aňlatmak üçin ulanylýar.</span>
+                <div class="ex">
+                    <p class="en">Sit down!</p>
+                    <p class="tk">Otur!</p>
+                    <p class="en">Go out.</p>
+                    <p class="tk">Çyk.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Exclamatory sentences</b> — used to express feelings and emotions.</span>
+                <span class="tk"><b>Ýüzlenme (duýgy) sözlemler</b> — duýgulary we emosýalary aňlatmak üçin ulanylýar.</span>
+                <div class="ex">
+                    <p class="en">What beautiful weather it is!</p>
+                    <p class="tk">Nähili ajaýyp howa!</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 03 -->
+    <section class="card" data-topic="parts">
+        <div class="card-head">
+            <span class="num">03</span>
+            <h2>Parts of the Sentence<small>Sözlemiň bölekleri</small></h2>
+        </div>
+
+        <p class="en">Parts of the sentence are divided into two main groups:</p>
+        <p class="tk">Sözlemiň bölekleri iki esasy topara bölünýär:</p>
+
+        <ol class="list">
+            <li>
+                <span class="en"><b>Principal parts:</b></span>
+                <span class="tk"><b>Baş agzalar:</b></span>
+                <ul class="list" style="margin-top:6px;">
+                    <li><span class="en">Subject</span><span class="tk">Eýe</span></li>
+                    <li><span class="en">Predicate</span><span class="tk">Habar</span></li>
+                </ul>
+            </li>
+            <li>
+                <span class="en"><b>Secondary parts:</b></span>
+                <span class="tk"><b>Ikinji derejeli agzalar:</b></span>
+                <ul class="list" style="margin-top:6px;">
+                    <li><span class="en">Object</span><span class="tk">Doldurgyç</span></li>
+                    <li><span class="en">Attribute</span><span class="tk">Aýyryjy</span></li>
+                    <li><span class="en">Adverbial modifier</span><span class="tk">Hal (ýagdaý aňladýjy)</span></li>
+                </ul>
+            </li>
+        </ol>
+
+        <div class="note">
+            <p class="en"><b>Note:</b> The Subject is an independent part of the sentence on which other principal parts depend, while the Predicate is dependent on the Subject.</p>
+            <p class="tk"><b>Bellik:</b> Eýe — beýleki baş agzalaryň özüne bagly bolan garaşsyz agzasy, habar bolsa eýä bagly bolýar.</p>
+        </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="card" data-topic="subject">
+        <div class="card-head">
+            <span class="num">04</span>
+            <h2>The Subject &amp; Ways of Expressing It<small>Eýe we onuň aňladylşy</small></h2>
+        </div>
+
+        <p class="en">The function of the subject may be expressed by:</p>
+        <p class="tk">Eýäniň funksiýasy aşakdakylar bilen aňladylýar:</p>
+
+        <ul class="list">
+            <li>
+                <span class="en"><b>1. Noun:</b> <em>The horse is running.</em></span>
+                <span class="tk"><b>1. At:</b> <em>At ýugurýar.</em></span>
+            </li>
+            <li>
+                <span class="en"><b>2. Pronoun:</b> <em>Somebody is outside the window.</em></span>
+                <span class="tk"><b>2. Çalyşma:</b> <em>Kimdir biri penjiräniň daşynda.</em></span>
+            </li>
+            <li>
+                <span class="en"><b>3. Adjective:</b> <em>The poor lived outside the city.</em></span>
+                <span class="tk"><b>3. Sypat:</b> <em>Garyplar şäheriň daşynda ýaşaýardylar.</em></span>
+            </li>
+            <li>
+                <span class="en"><b>4. Numeral:</b> <em>The first is coming.</em></span>
+                <span class="tk"><b>4. San:</b> <em>Birinjisi gelýär.</em></span>
+            </li>
+            <li>
+                <span class="en"><b>5. Gerund:</b> <em>Living there is comfortable.</em></span>
+                <span class="tk"><b>5. Gerund:</b> <em>Ol ýerde ýaşamak aňsat.</em></span>
+            </li>
+            <li>
+                <span class="en"><b>6. Infinitive:</b> <em>To study is important.</em></span>
+                <span class="tk"><b>6. Infinitiw:</b> <em>Okuw etmek möhümdir.</em></span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 05 -->
+    <section class="card" data-topic="predicate">
+        <div class="card-head">
+            <span class="num">05</span>
+            <h2>The Predicate (Habar)<small>Umumy düşündiriş</small></h2>
+        </div>
+
+        <p class="en">The <b>Predicate</b> is a principal part of the sentence which denotes an action, a state or a quality of a thing or a person expressed by the subject.</p>
+        <p class="tk"><b>Habar</b> — eýede aňladylan zadyň ýa-da adamyň hereketini, ýagdaýyny ýa-da häsiýetini aňladýan sözlemiň baş agzasy.</p>
+
+        <h3 class="sub">It denotes:</h3>
+
+        <p class="en"><b>Action:</b></p>
+        <p class="tk"><b>Hereket:</b></p>
+        <div class="ex">
+            <p class="en">Boys run.</p>
+            <p class="tk">Oglanlar ylgaýarlar.</p>
+            <p class="en">The sun rises.</p>
+            <p class="tk">Gün dogýar.</p>
+            <p class="en">They are students.</p>
+            <p class="tk">Olar talyplar.</p>
+        </div>
+
+        <p class="en"><b>State:</b></p>
+        <p class="tk"><b>Ýagdaý:</b></p>
+        <div class="ex">
+            <p class="en">I am tired.</p>
+            <p class="tk">Men ýadaw.</p>
+            <p class="en">She is here.</p>
+            <p class="tk">Ol şu ýerde.</p>
+        </div>
+
+        <p class="en"><b>Quality:</b></p>
+        <p class="tk"><b>Häsiýet:</b></p>
+        <div class="ex">
+            <p class="en">She is lazy.</p>
+            <p class="tk">Ol ýalta.</p>
+        </div>
+
+        <h3 class="sub">In English the predicate has two types:</h3>
+        <ul class="list">
+            <li><span class="en"><b>Simple predicate</b></span><span class="tk"><b>Ýönekeý habar</b></span></li>
+            <li><span class="en"><b>Compound predicate</b></span><span class="tk"><b>Goşma habar</b></span></li>
+        </ul>
+    </section>
+
+    <!-- 06 -->
+    <section class="card" data-topic="simple-predicate">
+        <div class="card-head">
+            <span class="num">06</span>
+            <h2>Simple Predicate<small>Ýönekeý habar</small></h2>
+        </div>
+
+        <p class="en">A simple predicate consists of a <b>finite verb</b> in any tense form.</p>
+        <p class="tk">Ýönekeý habar islendik zaman formasyndaky <b>şahsy işlikden</b> durýar.</p>
+
+        <div class="ex">
+            <p class="en">She works here.</p>
+            <p class="tk">Ol şu ýerde işleýär.</p>
+            <p class="en">I am here.</p>
+            <p class="tk">Men şu ýerde.</p>
+            <p class="en">She will have been working here.</p>
+            <p class="tk">Ol şu ýerde işläp ýörän bolar.</p>
+            <p class="en">The letter will be written.</p>
+            <p class="tk">Hat ýazylan bolar.</p>
+        </div>
+
+        <div class="note">
+            <p class="en">There is a special type of simple predicate which consists of a phraseological unit. It is called a <b>phraseological predicate</b>.</p>
+            <p class="tk">Ýönekeý habaryň aýratyn görnüşi bar, ol frazeologik birlemden durýar. Oňa <b>frazeologik habar</b> diýilýär.</p>
+        </div>
+    </section>
+
+    <!-- 07 -->
+    <section class="card" data-topic="phraseological">
+        <div class="card-head">
+            <span class="num">07</span>
+            <h2>Phraseological Predicate<small>Frazeologik habar</small></h2>
+        </div>
+
+        <p class="en">A phraseological predicate is a simple predicate expressed by a phraseological unit (a stable word combination).</p>
+        <p class="tk">Frazeologik habar — frazeologik birlik (durnukly söz düzümi) bilen aňladylan ýönekeý habar.</p>
+
+        <div class="ex">
+            <p class="en">Wake up.</p>
+            <p class="tk">Oýan.</p>
+            <p class="en">Take care of my family.</p>
+            <p class="tk">Meniň maşgalamyň aladasyny et.</p>
+            <p class="en">Take a pen.</p>
+            <p class="tk">Galam al.</p>
+            <p class="en">She keeps in touch with friends.</p>
+            <p class="tk">Ol dostlary bilen aragatnaşygy saklaýar.</p>
+        </div>
+
+        <h3 class="sub">Here are some examples of phraseological units:</h3>
+        <ul class="list">
+            <li><span class="en">to have a word</span><span class="tk">gepleşmek, iki agyz söz aýtmak</span></li>
+            <li><span class="en">to get rid (of)</span><span class="tk">gutulmak, aýrylmak</span></li>
+            <li><span class="en">to take a look</span><span class="tk">göz aýlamak, seretmek</span></li>
+            <li><span class="en">to make a move</span><span class="tk">herekete geçmek</span></li>
+            <li><span class="en">to make up one's mind</span><span class="tk">ýüregine düwmek, karara gelmek</span></li>
+            <li><span class="en">to change one's mind</span><span class="tk">pikirini üýtgetmek</span></li>
+            <li><span class="en">to make fun (of)</span><span class="tk">üstünden gülmek, masgaralamak</span></li>
+        </ul>
+    </section>
+
+    <!-- 08 — GOŞMA HABAR (täze) -->
+    <section class="card" data-topic="compound-predicate">
+        <div class="card-head">
+            <span class="num">08</span>
+            <h2>Compound Predicate<small>Goşma habar</small></h2>
+        </div>
+
+        <p class="en"><b>Compound predicate</b> has two types: <b>compound nominal predicate</b> and <b>compound verbal predicate</b>.</p>
+        <p class="tk"><b>Goşma habar</b> iki görnüşe bölünýär: <b>goşma at habar</b> we <b>goşma işlik habar</b>.</p>
+
+        <p class="en">A <b>compound nominal predicate</b> consists of a <b>link (copula) verb</b> and a <b>predicative</b>.</p>
+        <p class="tk"><b>Goşma at habar</b> <b>baglaýjy işlikden</b> we <b>predikatiwden</b> durýar.</p>
+
+        <p class="en">This type of predicate denotes a <b>state</b> or a <b>quality</b> of the subject.</p>
+        <p class="tk">Bu habar görnüşi eýäniň <b>ýagdaýyny</b> ýa-da <b>häsiýetini</b> aňladýar.</p>
+
+        <div class="ex">
+            <p class="en">Men ýadaw. → <b>I</b> <u>am</u> <u><u>tired</u></u>.</p>
+            <p class="tk">Men ýadaw. → <b>I</b> <u>am</u> <u><u>tired</u></u>.</p>
+            <p class="en">Ol meniň doganym. → <b>She</b> <u>is</u> <u><u>my sister</u></u>.</p>
+            <p class="tk">Ol meniň doganym. → <b>She</b> <u>is</u> <u><u>my sister</u></u>.</p>
+        </div>
+
+        <p class="en">Link verbs are always used in a compound nominal predicate. Here are some examples of link verbs:</p>
+        <p class="tk">Baglaýjy işlikler goşma at habarda hemişe ulanylýar. Baglaýjy işlikleriň mysallary:</p>
+
+        <div class="formula">to be · to feel · to look · to seem · to grow · to keep · to smell · to taste</div>
+
+        <h3 class="sub">Phraseological units used as predicates</h3>
+        <p class="en">Some compound predicates are expressed by stable phraseological combinations:</p>
+        <p class="tk">Käbir goşma habarlar durnukly frazeologik birleşmeler bilen aňladylýar:</p>
+
+        <ul class="list">
+            <li><span class="en">to have a wash</span><span class="tk">ýuwunmak</span></li>
+            <li><span class="en">to give a push</span><span class="tk">itmek</span></li>
+            <li><span class="en">to have a run</span><span class="tk">ylgamak</span></li>
+            <li><span class="en">to take a look</span><span class="tk">seretmek, göz aýlamak</span></li>
+            <li><span class="en">to make a move</span><span class="tk">herekete geçmek</span></li>
+            <li><span class="en">to make up one's mind</span><span class="tk">karara gelmek</span></li>
+            <li><span class="en">to change one's mind</span><span class="tk">pikirini üýtgetmek</span></li>
+            <li><span class="en">to make fun (of) smb</span><span class="tk">biriniň üstünden gülmek</span></li>
+        </ul>
+
+        <div class="ex">
+            <p class="en">They always made fun of him.</p>
+            <p class="tk">Olar hemişe onuň üstünden güldiler.</p>
+        </div>
+
+        <div class="note">
+            <p class="en"><b>Note:</b> A compound predicate consists of two parts: <b>a verb</b> and <b>some other part of speech</b> (a noun, a pronoun, an adjective, a numeral, words of category).</p>
+            <p class="tk"><b>Bellik:</b> Goşma habar iki bölekden durýar: <b>işlik</b> we <b>başga bir söz bölegi</b> (at, çalyşma, sypat, san, kategoriýa sözleri).</p>
+        </div>
+    </section>
+
+    <!-- 09 — PREDICATIVE (täze) -->
+    <section class="card" data-topic="predicative">
+        <div class="card-head">
+            <span class="num">09</span>
+            <h2>Predicative<small>Predikatiw (goşma at habaryň esasy bölegi)</small></h2>
+        </div>
+
+        <p class="en"><b>Predicative</b> is a significant part of the compound nominal predicate. It can be expressed by a <b>noun</b>, <b>adjective</b>, <b>pronoun</b>, <b>numerals</b>, <b>gerund</b>, or <b>infinitive</b>.</p>
+        <p class="tk"><b>Predikatiw</b> — goşma at habaryň möhüm bölegi. Ol <b>at</b>, <b>sypat</b>, <b>çalyşma</b>, <b>san</b>, <b>gerund</b> ýa-da <b>infinitiw</b> bilen aňladylýar.</p>
+
+        <h3 class="sub">Examples</h3>
+        <div class="ex">
+            <p class="en">I am aware of that.</p>
+            <p class="tk">Men munuňdan habardar.</p>
+
+            <p class="en">I am awake.</p>
+            <p class="tk">Men oýa.</p>
+
+            <p class="en">I am afraid.</p>
+            <p class="tk">Men gorkýaryn.</p>
+
+            <p class="en">She is exciting. She is an exciting teacher.</p>
+            <p class="tk">Ol tolgundyryjy. Ol tolgundyryjy mugallym.</p>
+
+            <p class="en">I am a boring girl. I am bored.</p>
+            <p class="tk">Men içgysgynç gyz. Men içgysgynç (ýadaw).</p>
+
+            <p class="en">My favourite activity is to run.</p>
+            <p class="tk">Meniň iň gowy görýän işim — ylgamak.</p>
+
+            <p class="en">My hobby is reading / to read.</p>
+            <p class="tk">Meniň güýmenjäm — okamak.</p>
+
+            <p class="en">She likes to read.</p>
+            <p class="tk">Ol okamagy halaýar.</p>
+        </div>
+
+        <h3 class="sub">V + adjective + noun</h3>
+        <p class="en">The adjective expresses the quality or character of the subject, and after it the predicate follows (the verb of the subject + adjective + noun).</p>
+        <p class="tk">Sypat eýäniň hilini ýa-da häsiýetini aňladýar, ondan soň bolsa habar gelýär (eýäniň işligi + sypat + at).</p>
+
+        <div class="ex">
+            <p class="en">I am smart.</p>
+            <p class="tk">Men akylly.</p>
+
+            <p class="en">I am at home.</p>
+            <p class="tk">Men öýde.</p>
+
+            <p class="en">He feels the touch. He feels good.</p>
+            <p class="tk">Ol elini degirýär. Ol özüni gowy duýýar.</p>
+
+            <p class="en">He seems bored.</p>
+            <p class="tk">Ol içgysgynç ýaly görünýär.</p>
+
+            <p class="en">I smell the flower. The flower smells good.</p>
+            <p class="tk">Men güli yslaýaryn. Gül oňat ysly.</p>
+
+            <p class="en">The fruit grows. He grows anxious.</p>
+            <p class="tk">Miwe ösýär. Ol tolgunýar.</p>
+        </div>
+    </section>
+
+    <!-- 10 — MODAL PREDICATE (täze) -->
+    <section class="card" data-topic="modal-predicate">
+        <div class="card-head">
+            <span class="num">10</span>
+            <h2>Compound Verbal Modal Predicate<small>Goşma işlik modal habar</small></h2>
+        </div>
+
+        <p class="en"><b>Compound verbal modal predicate</b> shows that the action expressed by the verbal is considered as <b>obligatory</b>, <b>possible</b>, <b>impossible</b>, <b>advisable</b>, <b>allowed</b>, <b>expected</b>, or <b>intended</b>.</p>
+        <p class="tk"><b>Goşma işlik modal habar</b> — işlik bilen aňladylan hereketiň <b>hökmany</b>, <b>mümkin</b>, <b>mümkin däl</b>, <b>maslahat berilýän</b>, <b>rugsat edilýän</b>, <b>garaşylýan</b> ýa-da <b>niýetlenen</b> hökmünde görülýändigini görkezýär.</p>
+
+        <h3 class="sub">Non-finite verbs (verbals)</h3>
+        <div class="formula">Infinitive · Participle · Gerund</div>
+
+        <p class="en">A compound verbal modal predicate consists of an <b>infinitive</b> or a <b>gerund</b> preceded by:</p>
+        <p class="tk">Goşma işlik modal habar öňünden gelýän <b>infinitiw</b> ýa-da <b>gerunddan</b> durýar:</p>
+
+        <ol class="list">
+            <li>
+                <span class="en"><b>Modal verbs:</b> can, must, may, would, should, need, ought to, will, shall, dare.</span>
+                <span class="tk"><b>Modal işlikler:</b> can, must, may, would, should, need, ought to, will, shall, dare.</span>
+                <div class="ex">
+                    <p class="en">I cannot understand English.</p>
+                    <p class="tk">Men iňlis diline düşünip bilemok.</p>
+                    <p class="en">We must study.</p>
+                    <p class="tk">Biz okamaly.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Modal expressions and equivalents:</b> to have (to), to be (to), to be able to, to be obliged, to be allowed.</span>
+                <span class="tk"><b>Modal aňlatmalar we ekwiwalentler:</b> to have (to), to be (to), to be able to, to be obliged, to be allowed.</span>
+                <div class="ex">
+                    <p class="en">We have to leave.</p>
+                    <p class="tk">Biz gitmeli.</p>
+                    <p class="en">They are not allowed to come.</p>
+                    <p class="tk">Olar gelmäge rugsat berilmeýär.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Verbs with modal meaning:</b> to try, to hope, to expect, to intend, to want, to wish, to desire, to long.</span>
+                <span class="tk"><b>Modal manyly işlikler:</b> to try, to hope, to expect, to intend, to want, to wish, to desire, to long.</span>
+                <div class="ex">
+                    <p class="en">I want some ice-cream.</p>
+                    <p class="tk">Men doňdurma isleýärin.</p>
+                    <p class="en">I want to sleep.</p>
+                    <p class="tk">Men ýatmak isleýärin.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Modal expressions:</b> to be willing (to), to be capable (of), to be going (to).</span>
+                <span class="tk"><b>Modal aňlatmalar:</b> to be willing (to), to be capable (of), to be going (to).</span>
+                <div class="ex">
+                    <p class="en">I am willing to visit friends.</p>
+                    <p class="tk">Men dostlarymy görmege taýýar.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ======== GROUP: PRESENT ======== -->
+    <div class="group-title">⏱️ Present zamanlar</div>
+
+    <!-- 11 -->
+    <section class="card" data-topic="present-simple">
+        <div class="card-head">
+            <span class="num">11</span>
+            <h2>Present Simple<small>Häzirki ýönekeý zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">Present Simple is formed with the help of the infinitive without the particle "to".</p>
+        <p class="tk">Present Simple "to" bölejiksiz infinitiw (işligiň asyl formasy) kömegi bilen ýasalýar.</p>
+
+        <p class="en">Only in the third person singular the ending "-s" is added.</p>
+        <p class="tk">Diňe üçünji şahs ýekelikde "-s" goşulmasy goşulýar.</p>
+
+        <div class="formula">S + V (+ -s / -es) + O</div>
+
+        <div class="ex">
+            <p class="en">She walks in the park.</p>
+            <p class="tk">Ol seýilgähde gezýär.</p>
+            <p class="en">I walk in the park.</p>
+            <p class="tk">Men seýilgähde gezýärin.</p>
+        </div>
+
+        <p class="en">In order to make negative sentences or questions we use the auxiliary verb "do / does".</p>
+        <p class="tk">Sorag we inkär sözlemleri düzmek üçin "do / does" kömekçi işligi ulanylýar.</p>
+
+        <h3 class="sub">The use of Present Simple</h3>
+        <p class="en">The Present Simple is used to express:</p>
+        <p class="tk">Present Simple aşakdakylary aňlatmak üçin ulanylýar:</p>
+
+        <ol class="list">
+            <li>
+                <span class="en"><b>Repeated and habitual actions</b> with adverbs of frequency: always, often, rarely, never, seldom.</span>
+                <span class="tk"><b>Gaýtalanýan we endik hereketler</b> — always, often, rarely, never, seldom ýaly ýygylyk sözleri bilen.</span>
+                <div class="ex">
+                    <p class="en">I always go to the university.</p>
+                    <p class="tk">Men elmydama uniwersitete gidýärin.</p>
+                    <p class="en">I never get up at 7.</p>
+                    <p class="tk">Men sagat 7-de hiç haçan turmaýaryn.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>An action or state characterising</b> a given person or thing.</span>
+                <span class="tk"><b>Bir adamy ýa-da zady häsiýetlendirýän</b> hereket ýa-da ýagdaý.</span>
+                <div class="ex">
+                    <p class="en">He is smart.</p>
+                    <p class="tk">Ol akylly.</p>
+                    <p class="en">She walks slowly.</p>
+                    <p class="tk">Ol haýal ýöräp barýar.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Universal facts and general truths.</b></span>
+                <span class="tk"><b>Umumy hakykatlar we hemişelik çynlyklar.</b></span>
+                <div class="ex">
+                    <p class="en">The sun rises in the east.</p>
+                    <p class="tk">Gün dogudan dogýar.</p>
+                    <p class="en">Water boils at 100 °C.</p>
+                    <p class="tk">Suw 100 °C-de gaýnaýar.</p>
+                    <p class="en">The sun sets in the west.</p>
+                    <p class="tk">Gün günbatarda ýaşýar.</p>
+                    <p class="en">A magnet attracts iron.</p>
+                    <p class="tk">Magnit demiri özüne çekýär.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>A fixed future action</b> (timetable, schedule): go, leave, depart, come, arrive.</span>
+                <span class="tk"><b>Bellenen geljekki hereket</b> (meýilnama, tertip): go, leave, depart, come, arrive.</span>
+                <div class="ex">
+                    <p class="en">There is a concert on March 5.</p>
+                    <p class="tk">5-nji martda konsert bar.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 12 -->
+    <section class="card" data-topic="present-continuous">
+        <div class="card-head">
+            <span class="num">12</span>
+            <h2>Present Continuous<small>Häzirki dowamly zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Present Continuous tense is formed with the help of the present form of the auxiliary verb "to be" and Participle I of the verb.</p>
+        <p class="tk">Present Continuous "to be" kömekçi işliginiň häzirki zaman formasy we işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + am / is / are + V-ing + O</div>
+
+        <div class="ex">
+            <p class="en">We are listening to the teacher. (+)</p>
+            <p class="tk">Biz mugallymy diňleýäris. (+)</p>
+            <p class="en">Are we listening to the teacher? (?)</p>
+            <p class="tk">Biz mugallymy diňleýärismi? (?)</p>
+            <p class="en">We aren't reading. (−)</p>
+            <p class="tk">Biz okamok. (−)</p>
+        </div>
+
+        <div class="note">
+            <p class="en">In questions the auxiliary verb is placed before the subject. In negative sentences the particle "not" is placed after am / is / are.</p>
+            <p class="tk">Soraglarda kömekçi işlik eýeden öň gelýär. Inkär sözlemlerde "not" bölejigi am / is / are-den soň goşulýar.</p>
+        </div>
+
+        <h3 class="sub">The use of Present Continuous</h3>
+        <p class="en">The Present Continuous is used to express:</p>
+        <p class="tk">Present Continuous aşakdakylary aňlatmak üçin ulanylýar:</p>
+
+        <ol class="list">
+            <li>
+                <span class="en"><b>An action going on at the present moment.</b></span>
+                <span class="tk"><b>Häzirki wagtda dowam edýän hereket.</b></span>
+                <div class="ex">
+                    <p class="en">We are writing now.</p>
+                    <p class="tk">Biz häzir ýazýarys.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>An arranged future action</b>, mostly with the construction "to be going to".</span>
+                <span class="tk"><b>Meýilleşdirilen geljekki hereket</b>, esasan "to be going to" gurluşy bilen.</span>
+                <div class="ex">
+                    <p class="en">I am going to travel next month.</p>
+                    <p class="tk">Men indiki aý syýahat etjek.</p>
+                    <p class="en">We are leaving the house next week.</p>
+                    <p class="tk">Biz indiki hepde öýden çykýarys.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>A continual process</b> with such adverbs as always, constantly, ever.</span>
+                <span class="tk"><b>Dowamly proses</b> — always, constantly, ever ýaly sözler bilen.</span>
+                <div class="ex">
+                    <p class="en">Time is passing.</p>
+                    <p class="tk">Wagt geçýär.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Actions or states thought of as a continual process.</b></span>
+                <span class="tk"><b>Dowamly proses hökmünde düşünilýän hereket ýa-da ýagdaý.</b></span>
+                <div class="ex">
+                    <p class="en">He is always sleeping.</p>
+                    <p class="tk">Ol elmydama uklap ýatyr.</p>
+                    <p class="en">You are always lying.</p>
+                    <p class="tk">Sen elmydama ýalan sözleýärsiň.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 13 -->
+    <section class="card" data-topic="present-perfect">
+        <div class="card-head">
+            <span class="num">13</span>
+            <h2>Present Perfect<small>Häzirki tamamlanan zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Present Perfect tense is formed with the help of the present tense of the auxiliary verb "to have" and Participle II of the verb.</p>
+        <p class="tk">Present Perfect "to have" kömekçi işliginiň häzirki zaman formasy we işligiň Participle II (III forma) bilen ýasalýar.</p>
+
+        <div class="formula">S + have / has + V³ (Participle II) + O</div>
+
+        <div class="ex">
+            <p class="en">I have done my homework. (+)</p>
+            <p class="tk">Men öý işimi etdim. (+)</p>
+            <p class="en">Have you done your homework? (?)</p>
+            <p class="tk">Sen öý işiňi etdiňmi? (?)</p>
+            <p class="en">I haven't done. (−)</p>
+            <p class="tk">Men etmedim. (−)</p>
+        </div>
+
+        <div class="note">
+            <p class="en">In questions the auxiliary verb is placed before the subject. In negatives the particle "not" is placed after the auxiliary verb.</p>
+            <p class="tk">Soraglarda kömekçi işlik eýeden öň gelýär. Inkärlikde "not" bölejigi kömekçi işlikden soň goşulýar.</p>
+        </div>
+
+        <h3 class="sub">The use of Present Perfect</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>A completed action connected with the present:</b> the adverbs already, just, of late, yet are used.</span>
+                <span class="tk"><b>Häzirki zaman bilen baglanyşykly tamamlanan hereket:</b> already, just, of late, yet sözleri ulanylýar.</span>
+                <div class="ex">
+                    <p class="en">I have already had my breakfast.</p>
+                    <p class="tk">Men ertirlik naharymy eýýäm iýdim.</p>
+                    <p class="en">I have just seen him.</p>
+                    <p class="tk">Men ony ýaňy gördüm.</p>
+                    <p class="en">"Yet" is used in questions and negative sentences.</p>
+                    <p class="tk">"Yet" sorag we inkär sözlemlerde ulanylýar.</p>
+                    <p class="en">I haven't written yet. (−)</p>
+                    <p class="tk">Men entek ýazmadym. (−)</p>
+                    <p class="en">Haven't you done your homework yet? (?)</p>
+                    <p class="tk">Sen entek öý işiňi etmediňmi? (?)</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>An action that began in the past, has continued up to the present moment and is still going on</b> (since / for). This is the Present Perfect Inclusive.</span>
+                <span class="tk"><b>Geçmişde başlap, häzirki wagta çenli dowam edýän we henizem dowam edýän hereket</b> (since / for). Bu — Present Perfect Inclusive.</span>
+                <div class="ex">
+                    <p class="en">I have lived in London since 1999.</p>
+                    <p class="tk">Men 1999-njy ýyldan bäri Londonda ýaşaýaryn.</p>
+                    <p class="en">I have lived in London for 19 years.</p>
+                    <p class="tk">Men 19 ýyl bäri Londonda ýaşaýaryn.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 14 -->
+    <section class="card" data-topic="present-perfect-continuous">
+        <div class="card-head">
+            <span class="num">14</span>
+            <h2>Present Perfect Continuous<small>Häzirki dowamly tamamlanan zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Present Perfect Continuous is formed with the help of the Present Perfect of the auxiliary verb "to be" and Participle I of the verb.</p>
+        <p class="tk">Present Perfect Continuous "to be" kömekçi işliginiň Present Perfect formasy (have been) we işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + have / has + been + V-ing</div>
+
+        <div class="ex">
+            <p class="en">I have been reading.</p>
+            <p class="tk">Men okap ýörün.</p>
+        </div>
+
+        <h3 class="sub">Inclusive and Exclusive</h3>
+        <ul class="list">
+            <li>
+                <span class="en"><b>Inclusive:</b> I have been reading since 3 o'clock.</span>
+                <span class="tk"><b>Inklýuziw:</b> Men sagat 3-den bäri okap ýörün.</span>
+            </li>
+            <li>
+                <span class="en"><b>Exclusive:</b> I have been reading for 3 hours.</span>
+                <span class="tk"><b>Eksklýuziw:</b> Men 3 sagat bäri okap ýörün.</span>
+            </li>
+        </ul>
+
+        <div class="note">
+            <p class="en">The Present Perfect Continuous Inclusive is generally used with "since" (starting point) and "for" (duration). If "since" introduces a clause, the verb in that clause is in the Past Indefinite.</p>
+            <p class="tk">Present Perfect Continuous Inclusive köplenç "since" (başlangyç nokat) we "for" (dowamlylyk) bilen ulanylýar. Eger "since" aýry sözlem girizýän bolsa, ol sözlemdäki işlik Past Indefinite-de bolýar.</p>
+        </div>
+
+        <div class="ex">
+            <p class="en">I have been looking out for your white dress for the last ten minutes.</p>
+            <p class="tk">Men soňky on minut bäri seniň ak köýnegiňi gözleýärin.</p>
+            <p class="en">Ever since I saw you last I have been thinking, thinking.</p>
+            <p class="tk">Seni iň soňky görenimden bäri pikir edip ýörün.</p>
+        </div>
+    </section>
+
+    <!-- ======== GROUP: PAST ======== -->
+    <div class="group-title">📅 Past zamanlar</div>
+
+    <!-- 15 -->
+    <section class="card" data-topic="past-simple">
+        <div class="card-head">
+            <span class="num">15</span>
+            <h2>Past Simple<small>Geçmiş ýönekeý zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Verb forms</h3>
+        <div class="formula">V1 = Infinitive (to work) · V2 = Past Indefinite (walked, saw) · V3 = Participle II (eaten) · V4 = Participle I (walking)</div>
+
+        <p class="en">The Past Simple tense is formed with the help of the Past Indefinite form of the verb. In questions and negatives we use "did" (the past form of "do").</p>
+        <p class="tk">Past Simple işligiň Past Indefinite formasy bilen ýasalýar. Sorag we inkärlikde "did" (do işliginiň geçmiş formasy) ulanylýar.</p>
+
+        <div class="formula">S + V² + O &nbsp;|&nbsp; Did + S + V¹ ? &nbsp;|&nbsp; S + did not + V¹</div>
+
+        <div class="ex">
+            <p class="en">I saw him yesterday. (+)</p>
+            <p class="tk">Men ony düýn gördüm. (+)</p>
+            <p class="en">Did you see him? (?)</p>
+            <p class="tk">Sen ony gördüňmi? (?)</p>
+            <p class="en">You didn't see him. (−)</p>
+            <p class="tk">Sen ony görmediň. (−)</p>
+        </div>
+
+        <h3 class="sub">The use of Past Simple</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>A completed action in the past cut off from the present.</b> Adverbs: last, yesterday, ago.</span>
+                <span class="tk"><b>Häzirki zaman bilen baglanyşyksyz, geçmişde gutaran hereket.</b> Sözler: last, yesterday, ago.</span>
+                <div class="ex">
+                    <p class="en">I saw him yesterday.</p>
+                    <p class="tk">Men ony düýn gördüm.</p>
+                    <p class="en">I went to the village yesterday.</p>
+                    <p class="tk">Men düýn oba gitdim.</p>
+                    <p class="en">I didn't fail my exam last month.</p>
+                    <p class="tk">Men geçen aý synagdan ýazmadym.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>A succession of past actions.</b></span>
+                <span class="tk"><b>Yzygiderli geçmiş hereketler.</b></span>
+                <div class="ex">
+                    <p class="en">I got up at 7, I opened the windows.</p>
+                    <p class="tk">Men sagat 7-de turdum, penjireleri açdym.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Past habits or repeated actions in the past:</b> used to.</span>
+                <span class="tk"><b>Geçmişdäki endikler ýa-da gaýtalanýan hereketler:</b> used to.</span>
+                <div class="ex">
+                    <p class="en">I used to study French.</p>
+                    <p class="tk">Men fransuz dilini öwrenýärdim.</p>
+                    <p class="en">I swam in the beach every summer.</p>
+                    <p class="tk">Men her tomus kenarda ýüzýärdim.</p>
+                    <p class="en">Did I use to study French? / I didn't use to study. / I used not to study French.</p>
+                    <p class="tk">Men fransuz dilini öwrenýärdimmi? / Men öwrenmeýärdim. / Men fransuz dilini öwrenmeýärdim.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 16 -->
+    <section class="card" data-topic="past-continuous">
+        <div class="card-head">
+            <span class="num">16</span>
+            <h2>Past Continuous<small>Geçmiş dowamly zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Past Continuous is formed with the help of the past form of the auxiliary verb "to be" (was / were) and Participle I of the verb.</p>
+        <p class="tk">Past Continuous "to be" kömekçi işliginiň geçmiş formasy (was / were) we işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + was / were + V-ing + O</div>
+
+        <h3 class="sub">The use of Past Continuous</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>An action going on at a past time.</b></span>
+                <span class="tk"><b>Geçmişde belli bir wagtda dowam edýän hereket.</b></span>
+                <div class="ex">
+                    <p class="en">When I came, he was sleeping.</p>
+                    <p class="tk">Men gelenimde, ol uklap ýatyrdy.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>An action or state thought of as a continual process in the past.</b></span>
+                <span class="tk"><b>Geçmişde dowamly proses hökmünde düşünilýän hereket ýa-da ýagdaý.</b></span>
+                <div class="ex">
+                    <p class="en">He was sleeping as usual.</p>
+                    <p class="tk">Ol adatdaky ýaly uklap ýatyrdy.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 17 -->
+    <section class="card" data-topic="past-perfect">
+        <div class="card-head">
+            <span class="num">17</span>
+            <h2>Past Perfect<small>Geçmiş tamamlanan zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Past Perfect tense is formed with the help of the Past Simple of the auxiliary verb "to have" (had) and Participle II of the verb.</p>
+        <p class="tk">Past Perfect "to have" kömekçi işliginiň geçmiş zaman formasy (had) we işligiň Participle II (III forma) bilen ýasalýar.</p>
+
+        <div class="formula">S + had + V³ + O</div>
+
+        <div class="ex">
+            <p class="en">I had finished my homework. (+)</p>
+            <p class="tk">Men öý işimi gutarypdym. (+)</p>
+            <p class="en">Had I finished? (?)</p>
+            <p class="tk">Men gutarypdymmy? (?)</p>
+            <p class="en">I hadn't finished. (−)</p>
+            <p class="tk">Men gutarmandym. (−)</p>
+        </div>
+
+        <h3 class="sub">The use of Past Perfect</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>An action completed before a definite moment in the past</b> (by, before, after, until or another past action).</span>
+                <span class="tk"><b>Geçmişde belli bir wagtdan öň tamamlanan hereket</b> (by, before, after, until ýa-da başga bir geçmiş hereket).</span>
+                <div class="ex">
+                    <p class="en">I had had (eaten) my breakfast before the phone rang.</p>
+                    <p class="tk">Telefon jyňňyrdamazdan öň men ertirlik naharymy iýipdim.</p>
+                    <p class="en">After the phone rang, I had had my breakfast.</p>
+                    <p class="tk">Telefon jyňňyrandan soň men ertirlik naharymy iýipdim.</p>
+                    <p class="en">I had had my breakfast by 9 o'clock.</p>
+                    <p class="tk">Men sagat 9-a çenli ertirlik naharymy iýipdim.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>An action which began before a definite moment in the past, was going on up to that moment and was still going on.</b></span>
+                <span class="tk"><b>Geçmişde belli bir wagta çenli dowam eden we şol wagtda henizem dowam edýän hereket.</b></span>
+                <div class="ex">
+                    <p class="en">By last month, I had lived here for a year.</p>
+                    <p class="tk">Geçen aýa çenli men bu ýerde bir ýyl ýaşapdym.</p>
+                    <p class="en">He left at 10. He had waited there since 7. / He had waited there 3 hours by 10.</p>
+                    <p class="tk">Ol sagat 10-da gitdi. Ol sagat 7-den bäri garaşypdy. / Ol sagat 10-a çenli 3 sagat garaşypdy.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 18 -->
+    <section class="card" data-topic="past-perfect-continuous">
+        <div class="card-head">
+            <span class="num">18</span>
+            <h2>Past Perfect Continuous<small>Geçmiş dowamly tamamlanan zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Past Perfect Continuous is formed with the help of the Past Perfect of the auxiliary verb "to be" (had been) and Participle I of the notional verb.</p>
+        <p class="tk">Past Perfect Continuous "to be" kömekçi işliginiň geçmiş zamany (had been) we asyl işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + had been + V-ing</div>
+
+        <div class="ex">
+            <p class="en">We had been waiting for him for half an hour. (+)</p>
+            <p class="tk">Biz oňa ýarym sagat garaşypdyk. (+)</p>
+            <p class="en">Had we been waiting? (?)</p>
+            <p class="tk">Biz garaşypdykmy? (?)</p>
+            <p class="en">We hadn't been waiting. (−)</p>
+            <p class="tk">Biz garaşmandyk. (−)</p>
+        </div>
+
+        <h3 class="sub">Inclusive and Exclusive</h3>
+        <ul class="list">
+            <li>
+                <span class="en"><b>Inclusive</b> expresses an action which had begun before a definite moment in the past, had been going on up to that moment and was still going on.</span>
+                <span class="tk"><b>Inklýuziw</b> — geçmişde belli bir wagtdan öň başlap, şol wagta çenli dowam eden we henizem dowam edýän hereket.</span>
+                <div class="ex">
+                    <p class="en">When we came yesterday, he had been waiting for 3 days.</p>
+                    <p class="tk">Düýn gelenimizde, ol 3 günläp garaşypdy.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Exclusive</b> expresses an action which had been going on before a definite moment in the past.</span>
+                <span class="tk"><b>Eksklýuziw</b> — geçmişde belli bir wagtdan öň dowam eden hereket.</span>
+                <div class="ex">
+                    <p class="en">We knew that he had been waiting for 3 days.</p>
+                    <p class="tk">Biz onuň 3 gün garaşandygyny bilýärdik.</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ======== GROUP: FUTURE ======== -->
+    <div class="group-title">🔮 Future zamanlar</div>
+
+    <!-- 19 -->
+    <section class="card" data-topic="future-indefinite">
+        <div class="card-head">
+            <span class="num">19</span>
+            <h2>Future Indefinite<small>Geljek ýönekeý zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Indefinite tense is formed with the help of the auxiliary verbs "shall / will" and the infinitive without the particle "to".</p>
+        <p class="tk">Future Indefinite "shall / will" kömekçi işlikleri we "to" bölejiksiz infinitiw bilen ýasalýar.</p>
+
+        <div class="formula">S + shall / will + V¹</div>
+
+        <p class="en">"Shall" is used with the first person (I, we) singular and plural. "Will" can be used with all persons.</p>
+        <p class="tk">"Shall" birinji şahs (I, we) ýekelik we köplük bilen ulanylýar. "Will" ähli şahslar bilen ulanylyp bilner.</p>
+
+        <p class="en">In interrogative sentences the auxiliary verb is placed before the subject. In negative sentences "not" is placed after the auxiliary verb.</p>
+        <p class="tk">Sorag sözlemlerde kömekçi işlik eýeden öň gelýär. Inkär sözlemlerde "not" kömekçi işlikden soň goşulýar.</p>
+
+        <div class="ex">
+            <p class="en">I will read this book. (+)</p>
+            <p class="tk">Men bu kitaby okaryn. (+)</p>
+            <p class="en">Will / Shall I read this book? (?)</p>
+            <p class="tk">Men bu kitaby okarynmy? (?)</p>
+            <p class="en">I won't / shan't read this book. (−)</p>
+            <p class="tk">Men bu kitaby okamok. (−)</p>
+        </div>
+
+        <h3 class="sub">The use of Future Indefinite</h3>
+        <p class="en">The Future Indefinite tense is used to denote a future action.</p>
+        <p class="tk">Future Indefinite geljekki hereketi aňlatmak üçin ulanylýar.</p>
+
+        <ul class="list">
+            <li>
+                <span class="en"><b>Simple prediction, spontaneous decision, future facts.</b></span>
+                <span class="tk"><b>Ýönekeý çaklama, şol pursatda kabul edilen karar, geljekki hakykatlar.</b></span>
+                <div class="ex">
+                    <p class="en">I am about to read it. / I am going to read it. / I am on the point of reading it.</p>
+                    <p class="tk">Men ony okamakçy. / Men ony okajak. / Men ony okamagyň öňüsyrasynda.</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 20 -->
+    <section class="card" data-topic="future-continuous">
+        <div class="card-head">
+            <span class="num">20</span>
+            <h2>Future Continuous<small>Geljek dowamly zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Continuous is formed by means of the Future Indefinite of the auxiliary verb "to be" and Participle I of the verb.</p>
+        <p class="tk">Future Continuous "to be" işliginiň geljek zaman formasy we işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + shall / will + be + V-ing</div>
+
+        <div class="ex">
+            <p class="en">I shall / will be reading. (+)</p>
+            <p class="tk">Men okaýan bolarin. (+)</p>
+            <p class="en">Shall / Will I be reading? (?)</p>
+            <p class="tk">Men okaýan bolarynmy? (?)</p>
+            <p class="en">I shall / will not be reading. (−)</p>
+            <p class="tk">Men okaýan bolmok. (−)</p>
+        </div>
+
+        <h3 class="sub">The use of Future Continuous</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>An action which will be going on at a definite moment in the future.</b></span>
+                <span class="tk"><b>Geljekde belli bir wagtda dowam edýän hereket.</b></span>
+                <div class="ex">
+                    <p class="en">I'll already be working when you return.</p>
+                    <p class="tk">Sen gaýdyp gelende men eýýäm işleýän bolarin.</p>
+                    <p class="en">At 12 o'clock I'll still be working.</p>
+                    <p class="tk">Sagat 12-de men henizem işleýän bolarin.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Modal colouring:</b> an action sure to take place, independently of the will.</span>
+                <span class="tk"><b>Modal many:</b> hökman boljak hereket.</span>
+                <div class="ex">
+                    <p class="en">You will be getting into debt.</p>
+                    <p class="tk">Sen bergä girýän bolarsyň.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>A planned or arranged future action</b> (similar to the Present Continuous).</span>
+                <span class="tk"><b>Meýilleşdirilen geljekki hereket</b> (Present Continuous-a meňzeş).</span>
+                <div class="ex">
+                    <p class="en">I'll be going out later. Do you want anything?</p>
+                    <p class="tk">Soň çykýan bolarin. Bir zat gerekmi?</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 21 -->
+    <section class="card" data-topic="future-perfect">
+        <div class="card-head">
+            <span class="num">21</span>
+            <h2>Future Perfect<small>Geljek tamamlanan zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Perfect is formed by means of the Future Indefinite of the auxiliary verb "to have" and Participle II of the verb.</p>
+        <p class="tk">Future Perfect "to have" işliginiň geljek zaman formasy we işligiň Participle II (III forma) bilen ýasalýar.</p>
+
+        <div class="formula">S + shall / will + have + V³</div>
+
+        <div class="ex">
+            <p class="en">I shall / will have worked. (+)</p>
+            <p class="tk">Men işlän bolarin. (+)</p>
+            <p class="en">Will I have worked? (?)</p>
+            <p class="tk">Men işlän bolarinmi? (?)</p>
+            <p class="en">I won't have worked. (−)</p>
+            <p class="tk">Men işlän bolmok. (−)</p>
+        </div>
+
+        <h3 class="sub">The use of Future Perfect</h3>
+        <ol class="list">
+            <li>
+                <span class="en"><b>An action completed before a definite moment in the future.</b></span>
+                <span class="tk"><b>Geljekde belli bir wagtdan öň tamamlanjak hereket.</b></span>
+                <div class="ex">
+                    <p class="en">I shall be back by six and I hope you will have had a good sleep by that time.</p>
+                    <p class="tk">Men altyda gaýdyp bolarin we umyt edýärin, şol wagta çenli sen oňat uklap alan bolarsyň.</p>
+                </div>
+            </li>
+            <li>
+                <span class="en"><b>Future Perfect Inclusive:</b> an action that will begin before a definite moment, continue up to that moment and be going on at that moment.</span>
+                <span class="tk"><b>Future Perfect Inclusive:</b> geljekde belli bir wagtdan öň başlap, şol wagta çenli dowam edýän hereket.</span>
+                <div class="ex">
+                    <p class="en">I shall / will have been a teacher for 20 years by next May.</p>
+                    <p class="tk">Indiki maýa çenli men 20 ýyl mugallym bolup ýörün bolarin.</p>
+                    <p class="en">By 3 o'clock I will have been here for 10 hours.</p>
+                    <p class="tk">Sagat 3-e çenli men bu ýerde 10 sagat bäri bolup ýörün bolarin.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <!-- 22 -->
+    <section class="card" data-topic="future-perfect-continuous">
+        <div class="card-head">
+            <span class="num">22</span>
+            <h2>Future Perfect Continuous<small>Geljek dowamly tamamlanan zaman</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Perfect Continuous tense is formed with the help of the Future Perfect of the auxiliary verb "to be" and Participle I of the verb.</p>
+        <p class="tk">Future Perfect Continuous "to be" işliginiň Future Perfect formasy we işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + shall / will + have + been + V-ing</div>
+
+        <div class="ex">
+            <p class="en">I will have been working from 2 to 5.</p>
+            <p class="tk">Men sagat 2-den 5-e çenli işleýän bolarin.</p>
+            <p class="en">I will have been working here for 15 years by January 1.</p>
+            <p class="tk">Men 1-nji ýanwara çenli bu ýerde 15 ýyl işleýän bolarin.</p>
+        </div>
+
+        <h3 class="sub">The use</h3>
+        <p class="en">The Future Perfect Continuous denotes an action which will begin before a definite moment in the future, will continue up to that moment and will be going on at that moment (inclusive).</p>
+        <p class="tk">Future Perfect Continuous geljekde belli bir wagtdan öň başlap, şol wagta çenli dowam edip, şol wagt hem dowam edýän hereketi aňladýar (inklýuziw).</p>
+    </section>
+
+    <!-- ======== GROUP: FUTURE IN THE PAST ======== -->
+    <div class="group-title">⏮️ Future in the Past</div>
+
+    <!-- 23 -->
+    <section class="card" data-topic="fi-past">
+        <div class="card-head">
+            <span class="num">23</span>
+            <h2>Future Indefinite in the Past<small>Geçmişde geljek ýönekeý</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Indefinite in the Past is formed with the help of the auxiliary verbs "should / would" and the infinitive without the particle "to".</p>
+        <p class="tk">Future Indefinite in the Past "should / would" kömekçi işlikleri we "to" bölejiksiz infinitiw bilen ýasalýar.</p>
+
+        <div class="formula">S + should / would + V¹</div>
+
+        <div class="ex">
+            <p class="en">I said I should go to the park.</p>
+            <p class="tk">Men seýilgähe gitjekdigimi aýtdym.</p>
+            <p class="en">I said I should go the next day.</p>
+            <p class="tk">Men ertesi gün gitjekdigimi aýtdym.</p>
+        </div>
+
+        <div class="note">
+            <p class="en"><b>Negative:</b> "not" after should / would. <b>Interrogative:</b> the auxiliary verb is placed before the subject.</p>
+            <p class="tk"><b>Inkär:</b> "not" should / would-dan soň. <b>Sorag:</b> kömekçi işlik eýeden öň gelýär.</p>
+            <p class="en"><b>Contracted forms:</b> shouldn't, wouldn't. In the affirmative we use 'd (I'd, you'd).</p>
+            <p class="tk"><b>Gysgaldylan formlar:</b> shouldn't, wouldn't. Tassyklamada 'd goşulýar (I'd, you'd).</p>
+        </div>
+
+        <h3 class="sub">The use</h3>
+        <p class="en">It denotes an action which was a future action from the point of view of the past.</p>
+        <p class="tk">Geçmişiň nukdaýnazaryndan geljek bolan hereketi aňladýar.</p>
+    </section>
+
+    <!-- 24 -->
+    <section class="card" data-topic="fc-past">
+        <div class="card-head">
+            <span class="num">24</span>
+            <h2>Future Continuous in the Past<small>Geçmişde geljek dowamly</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Continuous in the Past is formed with the help of the Future Indefinite in the Past of "to be" and Participle I of the verb.</p>
+        <p class="tk">Future Continuous in the Past "to be" işliginiň Future Indefinite in the Past formasy we işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + should / would + be + V-ing</div>
+
+        <div class="ex">
+            <p class="en">I should be walking in the park.</p>
+            <p class="tk">Men seýilgähde gezýän bolardym.</p>
+        </div>
+
+        <h3 class="sub">The use</h3>
+        <p class="en">It expresses an action going on at a definite moment which was future from the point of view of the past.</p>
+        <p class="tk">Geçmişiň nukdaýnazaryndan geljekde belli bir wagtda dowam edýän hereketi aňladýar.</p>
+
+        <div class="ex">
+            <p class="en">He said he would be waiting for us at 5 o'clock.</p>
+            <p class="tk">Ol sagat 5-de bize garaşýan boljakdygyny aýtdy.</p>
+        </div>
+    </section>
+
+    <!-- 25 -->
+    <section class="card" data-topic="fp-past">
+        <div class="card-head">
+            <span class="num">25</span>
+            <h2>Future Perfect in the Past<small>Geçmişde geljek tamamlanan</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Perfect in the Past is formed with the help of the Future Indefinite in the Past of the auxiliary verb "to have" and Participle II of the verb.</p>
+        <p class="tk">Future Perfect in the Past "to have" kömekçi işliginiň geçmişdäki geljek zaman formasy we işligiň Participle II (III forma) bilen ýasalýar.</p>
+
+        <div class="formula">S + should / would + have + V³</div>
+
+        <div class="ex">
+            <p class="en">I would have finished my essay by 7 o'clock yesterday.</p>
+            <p class="tk">Men düýn sagat 7-e çenli esseimi gutaran bolardym.</p>
+            <p class="en">She would have cooked dinner by the time he came home.</p>
+            <p class="tk">Ol öýe gelen wagty, ol nahar bişiren bolardy.</p>
+            <p class="en">They would have left the office by 6 pm yesterday.</p>
+            <p class="tk">Olar düýn agşam sagat 6-a çenli ofisden çykyp giden bolardylar.</p>
+            <p class="en">We would have bought the tickets before the concert started.</p>
+            <p class="tk">Konsert başlamanka biletleri satyn alan bolardyk.</p>
+        </div>
+
+        <h3 class="sub">The use</h3>
+        <p class="en">The Future Perfect in the Past is used to denote an action completed before a definite moment which was future from the point of view of the past.</p>
+        <p class="tk">Future Perfect in the Past geçmişiň nukdaýnazaryndan geljekde belli bir wagtdan öň tamamlanan hereketi aňladýar.</p>
+
+        <ul class="list">
+            <li>
+                <span class="en"><b>An action that was completed before another past action or a specific past time reference</b> from a future-in-the-past perspective.</span>
+                <span class="tk"><b>Geçmişiň gözýetiminden geljekde belli bir hereketden ýa-da wagtdan öň gutaran hereket.</b></span>
+                <div class="ex">
+                    <p class="en">He said that he would have repaired the car by the next morning.</p>
+                    <p class="tk">Ol ertesi gün irden maşyny abadan edip goýjakdygyny aýtdy.</p>
+                    <p class="en">By the time you arrived, I would have already left.</p>
+                    <p class="tk">Sen gelen wagtyň, men eýýäm gidip bolardym.</p>
+                    <p class="en">I hoped that I would have finished the project by Friday.</p>
+                    <p class="tk">Men anna gününe çenli taslamany gutararyn öýdýärdim.</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 26 -->
+    <section class="card" data-topic="fpc-past">
+        <div class="card-head">
+            <span class="num">26</span>
+            <h2>Future Perfect Continuous in the Past<small>Geçmişde geljek dowamly tamamlanan</small></h2>
+        </div>
+
+        <h3 class="sub">Formation</h3>
+        <p class="en">The Future Perfect Continuous in the Past is formed with the help of the Future Perfect in the Past of the auxiliary verb "to be" and Participle I of the verb.</p>
+        <p class="tk">Future Perfect Continuous in the Past "to be" işliginiň geçmişdäki geljek tamamlanan formasy we işligiň Participle I (-ing) formasy bilen ýasalýar.</p>
+
+        <div class="formula">S + should / would + have + been + V-ing</div>
+
+        <div class="ex">
+            <p class="en">I would have been working here for two years, if I hadn't been fired last year.</p>
+            <p class="tk">Geçen ýyl işden kowulmasam, men bu ýerde iki ýyl işleýän bolardym.</p>
+            <p class="en">She would have been studying at the university for three years by last June.</p>
+            <p class="tk">Geçen iýun aýyna çenli ol uniwersitetde üç ýyl okaýan bolardy.</p>
+            <p class="en">They would have been travelling for two months by the time they reached Paris.</p>
+            <p class="tk">Pariža ýetip baranlarynda, olar iki aýlap syýahat edýän bolardylar.</p>
+            <p class="en">He knew that he would have been waiting for more than an hour when she finally arrived.</p>
+            <p class="tk">Ol ahyrynda geleninde, bir sagatdan gowrak garaşýan boljakdygyny bilýärdi.</p>
+        </div>
+
+        <h3 class="sub">The use</h3>
+        <p class="en">The Future Perfect Continuous in the Past is used to denote an action going on during a certain period of time before a definite moment which was future from the point of view of the past.</p>
+        <p class="tk">Future Perfect Continuous in the Past geçmişiň nukdaýnazaryndan geljekde belli bir wagta çenli belli döwürde dowam edýän hereketi aňladýar.</p>
+
+        <ul class="list">
+            <li>
+                <span class="en"><b>An action that was in progress up to a specific future moment in the past perspective</b>, often emphasising duration.</span>
+                <span class="tk"><b>Geçmişiň gözýetiminden geljekde belli bir wagta çenli dowam edýän we dowamlylygy nygtaýan hereket.</b></span>
+                <div class="ex">
+                    <p class="en">She told me that by December she would have been teaching for ten years.</p>
+                    <p class="tk">Ol maňa dekabr aýyna çenli on ýyl mugallymçylyk edip ýörän boljakdygyny aýtdy.</p>
+                    <p class="en">I knew that by the end of the month I would have been waiting for three months.</p>
+                    <p class="tk">Aýyň ahyryna çenli üç aý bäri garaşýan boljakdygymy bilýärdim.</p>
+                    <p class="en">He realized that he would have been working for the company for twenty years the following spring.</p>
+                    <p class="tk">Ol indiki ýazda kompaniýada 20 ýyl işleýän boljakdygyna düşündi.</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+</main>
+
+<footer>
+    <b>Iňlis dili · Sintaksis we Zamanlar</b> · doly düşündiriş · ähli mysallar türkmen dilinde
+</footer>
+
+<script>
+    /* ================= ELEMENTLER ================= */
+    const menuBtn   = document.getElementById('menuBtn');
+    const closeBtn  = document.getElementById('closeBtn');
+    const sidebar   = document.getElementById('sidebar');
+    const overlay   = document.getElementById('overlay');
+    const navItems  = document.querySelectorAll('.nav-item');
+    const cards     = document.querySelectorAll('.card');
+    const langBtn   = document.getElementById('langBtn');
+
+    /* ================= SIDEBAR ================= */
+    function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', openSidebar);
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeSidebar();
+    });
+
+    /* ================= MOWZUK SAÝLAMA ================= */
+    navItems.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            navItems.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const topic = btn.dataset.topic;
+            const showAll = (topic === 'all');
+
+            document.body.classList.toggle('view-all', showAll);
+
+            cards.forEach(function (card) {
+                if (showAll || card.dataset.topic === topic) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.innerWidth < 900) closeSidebar();
+        });
+    });
+
+    /* ================= TÜRKMENÇE / IŇLIS DÜWME ================= */
+    langBtn.addEventListener('click', function () {
+        const isOn = document.body.classList.toggle('show-tkm');
+        langBtn.classList.toggle('on', isOn);
+        langBtn.innerHTML = isOn
+            ? '🇹🇲 Türkmençe gizle'
+            : '🇹🇲 Türkmençe görkez';
+    });
+
+    /* ================= BAŞLANGYÇ ================= */
+    document.body.classList.add('view-all');
+</script>
+
+</body>
+</html>

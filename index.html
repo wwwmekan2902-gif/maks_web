@@ -1,458 +1,252 @@
 <!DOCTYPE html>
 <html lang="tk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AUKSION PRO — Janly Bäsleşik Platformasy</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --bg-dark: #0b0c10;
-      --bg-card: #14161d;
-      --bg-input: #1e212b;
-      --gold: #f5b942;
-      --gold-hover: #ffd166;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --danger: #ef4444;
-      --success: #10b981;
-      --border: #2a2e3b;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; }
-
-    /* Navbar */
-    header {
-      background: rgba(20, 22, 29, 0.95);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo { font-size: 1.5rem; font-weight: 800; color: var(--gold); letter-spacing: 1px; }
-    .logo span { color: #fff; }
-    .nav-actions { display: flex; gap: 12px; align-items: center; }
-
-    /* Buttons & Inputs */
-    button {
-      background: var(--gold);
-      color: #000;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover { background: var(--gold-hover); transform: translateY(-1px); }
-    button.secondary { background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border); }
-    button.secondary:hover { border-color: var(--gold); }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    input, textarea, select {
-      width: 100%;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 8px;
-      margin-top: 6px;
-      margin-bottom: 14px;
-      outline: none;
-    }
-    input:focus, textarea:focus { border-color: var(--gold); }
-
-    /* Main Layout */
-    .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
-    .section-title { font-size: 1.4rem; margin-bottom: 1.5rem; border-left: 4px solid var(--gold); padding-left: 12px; }
-
-    /* Grid */
-    .auction-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 24px;
-    }
-
-    /* Card */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: 0.3s;
-    }
-    .card:hover { border-color: var(--gold); box-shadow: 0 10px 25px rgba(245, 185, 66, 0.1); }
-    .card-img { width: 100%; height: 210px; object-fit: cover; background: #1a1d24; }
-    .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
-    .card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; }
-    .card-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px; flex: 1; }
-    
-    .price-box {
-      background: var(--bg-dark);
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 14px;
-      border: 1px solid var(--border);
-    }
-    .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-    .current-price { font-size: 1.35rem; font-weight: 800; color: var(--gold); }
-    .timer { font-weight: 700; color: var(--success); font-variant-numeric: tabular-nums; }
-    .timer.urgent { color: var(--danger); animation: pulse 1s infinite; }
-    .leader-info { font-size: 0.8rem; color: var(--text-muted); }
-
-    .bid-controls { display: flex; gap: 8px; }
-    .bid-controls input { margin: 0; }
-
-    /* Modals */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-      z-index: 200;
-      padding: 20px;
-    }
-    .modal.active { display: flex; }
-    .modal-content {
-      background: var(--bg-card);
-      border: 1px solid var(--gold);
-      padding: 24px;
-      border-radius: 14px;
-      width: 100%;
-      max-width: 440px;
-      position: relative;
-    }
-    .close-btn {
-      position: absolute;
-      top: 14px;
-      right: 16px;
-      background: none;
-      color: var(--text-muted);
-      font-size: 1.4rem;
-      padding: 0;
-    }
-    .badge {
-      background: rgba(245, 185, 66, 0.15);
-      color: var(--gold);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    @keyframes pulse { 50% { opacity: 0.5; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AUKSION PRO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#07080a;--card:#12151c;--input:#1a1e29;--gold:#f5b942;--text:#f9fafb;--muted:#9ca3af;--danger:#f87171;--ok:#34d399;--bd:rgba(255,255,255,.1)}
+[data-theme=light]{--bg:#f4f5f7;--card:#fff;--input:#eef0f4;--text:#111827;--muted:#6b7280;--bd:rgba(0,0,0,.12)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,'Segoe UI',system-ui,sans-serif}
+body{background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+header{background:var(--card);border-bottom:1px solid var(--bd);padding:.8rem 4%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:50}
+.logo{font-size:1.5rem;font-weight:900;color:var(--gold);letter-spacing:1px}.logo span{color:var(--text)}
+.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button{background:linear-gradient(135deg,#f5b942,#d49414);color:#000;border:0;padding:9px 16px;border-radius:10px;font-weight:700;cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-2px)}button:disabled{opacity:.4;cursor:not-allowed}
+button.sec{background:var(--input);color:var(--text);border:1px solid var(--bd)}
+input,textarea,select{width:100%;background:var(--input);border:1px solid var(--bd);color:var(--text);padding:10px 14px;border-radius:10px;margin:5px 0 12px;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+.nav select{width:auto;margin:0;padding:8px}
+.wrap{max-width:1250px;margin:2rem auto;padding:0 20px}
+h2.st{border-left:4px solid var(--gold);padding-left:12px;margin-bottom:1.4rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card img.im{width:100%;height:210px;object-fit:cover;cursor:pointer;background:var(--input)}
+.cb{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ct{font-weight:700;font-size:1.15rem;cursor:pointer}
+.muted{color:var(--muted);font-size:.85rem}
+.pb{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.pr{display:flex;justify-content:space-between;align-items:center}
+.price{color:var(--gold);font-weight:800;font-size:1.35rem}
+.timer{color:var(--ok);font-weight:700}.timer.u{color:var(--danger)}
+.stats{display:flex;gap:14px;font-size:.9rem;color:var(--muted)}
+.stats span{cursor:pointer}.liked{color:var(--danger)}
+.bid{display:flex;gap:8px}.bid input{margin:0}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);justify-content:center;align-items:center;z-index:200;padding:16px}
+.modal.on{display:flex}
+.mc{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:24px;width:100%;max-width:520px;max-height:92vh;overflow:auto;position:relative}
+.x{position:absolute;top:10px;right:14px;background:none;color:var(--muted);font-size:1.6rem;padding:0}
+.av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--gold);color:#000;display:inline-flex;align-items:center;justify-content:center;font-weight:800;vertical-align:middle}
+.tabs{display:flex;gap:8px;margin:14px 0}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--bd);border-radius:12px;padding:10px;margin-bottom:8px}
+.row img{width:56px;height:56px;border-radius:8px;object-fit:cover}
+.cm{border-bottom:1px solid var(--bd);padding:8px 0}
+.msgs{height:320px;overflow:auto;display:flex;flex-direction:column;gap:6px;background:var(--bg);padding:10px;border-radius:12px;margin:10px 0}
+.m{max-width:75%;padding:8px 12px;border-radius:12px;background:var(--input);align-self:flex-start;word-break:break-word}
+.m.me{background:var(--gold);color:#000;align-self:flex-end}.m img{max-width:100%;border-radius:8px;display:block}
+a.u{color:var(--gold);cursor:pointer;font-weight:600}
+</style>
 </head>
 <body>
-
 <header>
-  <div class="logo">AUKSION<span>Aşyr</span></div>
-  <div class="nav-actions" id="nav-actions">
-    <button onclick="openModal('auth-modal')">Giriş / Registrasiýa</button>
+  <div class="logo">AUKSION<span>PRO</span></div>
+  <div class="nav">
+    <select id="lang" onchange="setLang(this.value)"><option value="tk">TKM</option><option value="en">ENG</option><option value="ru">RUS</option></select>
+    <button class="sec" onclick="toggleTheme()">🌓</button>
+    <span id="nav" class="nav"></span>
   </div>
 </header>
-
-<div class="container">
-  <h2 class="section-title">Janly Auksionlar (Bäsleşik)</h2>
-  <div class="auction-grid" id="auction-list">
-    <p style="color: var(--text-muted);">Auksionlar ýüklenýär...</p>
-  </div>
+<div class="wrap">
+  <h2 class="st" data-i="title_page"></h2>
+  <input id="search" data-ph="search" oninput="render()">
+  <div class="grid" id="list"></div>
 </div>
 
-<!-- AUTH MODAL -->
-<div class="modal" id="auth-modal">
-  <div class="modal-content">
-    <button class="close-btn" onclick="closeModal('auth-modal')">&times;</button>
-    <h3 style="margin-bottom: 14px; color: var(--gold);">Hasaba Giriş ýa-da Täze Hasap</h3>
-    <label>E-poçta (Email)</label>
-    <input type="email" id="auth-email" placeholder="mysal@gmail.com" />
-    <label>Parol (Iň az 6 nyşan)</label>
-    <input type="password" id="auth-password" placeholder="••••••" />
-    <div style="display: flex; gap: 10px;">
-      <button style="flex: 1;" onclick="handleAuth('login')">Giriş Etmek</button>
-      <button style="flex: 1;" class="secondary" onclick="handleAuth('signup')">Registrasiýa</button>
-    </div>
-  </div>
-</div>
+<div class="modal" id="auth"><div class="mc"><button class="x" onclick="closeM('auth')">&times;</button>
+  <h3 data-i="login_h"></h3><br>
+  <label data-i="email"></label><input type="email" id="a-email">
+  <label data-i="pass"></label><input type="password" id="a-pass">
+  <div class="bid"><button style="flex:1" onclick="auth('login')" data-i="login"></button><button style="flex:1" class="sec" onclick="auth('signup')" data-i="signup"></button></div>
+</div></div>
 
-<!-- CREATE AUCTION MODAL -->
-<div class="modal" id="create-modal">
-  <div class="modal-content">
-    <button class="close-btn" onclick="closeModal('create-modal')">&times;</button>
-    <h3 style="margin-bottom: 14px; color: var(--gold);">Täze Auksion Başlatmak</h3>
-    <label>Harydyň Ady</label>
-    <input type="text" id="item-title" placeholder="Meselem: iPhone 15 Pro Max 256GB" />
-    <label>Beýany (Ýagdaýy, aýratynlyklary)</label>
-    <textarea id="item-desc" rows="2" placeholder="Täze ýaly, karobkasy bar..."></textarea>
-    <label>Harydyň Suraty</label>
-    <input type="file" id="item-image" accept="image/*" />
-    <div style="display: flex; gap: 10px;">
-      <div style="flex: 1;">
-        <label>Başlangyç Baha (TMT)</label>
-        <input type="number" id="item-price" value="100" min="1" />
-      </div>
-      <div style="flex: 1;">
-        <label>Iň Az Ädim (TMT)</label>
-        <input type="number" id="item-step" value="10" min="1" />
-      </div>
-    </div>
-    <label>Auksionyň Dowamlylygy</label>
-    <select id="item-duration">
-      <option value="5">5 Minut (Synag üçin)</option>
-      <option value="60">1 Sagat</option>
-      <option value="360">6 Sagat</option>
-      <option value="1440" selected>24 Sagat (1 Gün)</option>
-      <option value="4320">3 Gün</option>
-    </select>
-    <button style="width: 100%;" id="create-btn" onclick="createAuction()">Auksiony Ýaýlyma Goýbermek</button>
-  </div>
-</div>
+<div class="modal" id="create"><div class="mc"><button class="x" onclick="closeM('create')">&times;</button>
+  <h3 data-i="new_h"></h3><br>
+  <label data-i="name_i"></label><input id="c-title">
+  <label data-i="desc"></label><textarea id="c-desc" rows="2"></textarea>
+  <label data-i="photo"></label><input type="file" id="c-img" accept="image/*">
+  <div class="bid"><div style="flex:1"><label data-i="start"></label><input type="number" id="c-price" value="100" min="1"></div>
+  <div style="flex:1"><label data-i="step"></label><input type="number" id="c-step" value="10" min="1"></div></div>
+  <label data-i="dur"></label>
+  <select id="c-dur"><option value="5">5 min</option><option value="60">1 h</option><option value="360">6 h</option><option value="1440" selected>24 h</option><option value="4320">3 d</option></select>
+  <label data-i="phone"></label><input id="c-phone" placeholder="+993 6x xxxxxx">
+  <label data-i="gmail"></label><input type="email" id="c-gmail" placeholder="name@gmail.com">
+  <button style="width:100%" id="c-btn" onclick="createAuction()" data-i="publish"></button>
+</div></div>
+
+<div class="modal" id="detail"><div class="mc" id="detail-c"></div></div>
+<div class="modal" id="profile"><div class="mc" id="profile-c"></div></div>
+<div class="modal" id="chat"><div class="mc" id="chat-c"></div></div>
 
 <script>
-  // === SUPABASE SAZLAMALARY (Siziň maglumatlaryňyz göni girizildi) ===
-  const SUPABASE_URL = 'https://wlgdcpzxhtmwxuarwesk.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZ2RjcHp4aHRtd3h1YXJ3ZXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NDcwMzIsImV4cCI6MjExMDAyMzAzMn0.DLpu_QCs0YYKuX0EWoPSuPE5mwKey1XlvNUXecAJ2zk';
-  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const db=supabase.createClient('https://wlgdcpzxhtmwxuarwesk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZ2RjcHp4aHRtd3h1YXJ3ZXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NDcwMzIsImV4cCI6MjExMDAyMzAzMn0.DLpu_QCs0YYKuX0EWoPSuPE5mwKey1XlvNUXecAJ2zk');
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let lang=localStorage.lang||'tk',me=null,P={},A=[],L=[],C=[],curChat=null,chatCh=null,tmr=null;
+const D={
+tk:{title_page:'Janly Auksionlar',search:'Gözleg...',login_h:'Giriş ýa-da Registrasiýa',email:'E-poçta',pass:'Parol (iň az 6)',login:'Giriş',signup:'Registrasiýa',logout:'Çykmak',add:'+ Auksion',new_h:'Täze Auksion',name_i:'Harydyň ady',desc:'Beýany',photo:'Surat',start:'Başlangyç baha (TMT)',step:'Iň az ädim (TMT)',dur:'Dowamlylygy',phone:'Telefon (hökman däl)',gmail:'Gmail (hökman)',publish:'Ýaýlyma goýmak',seller:'Satyjy',leader:'Öňdebaryjy',nobid:'Stawka ýok',cur:'Häzirki baha',bidb:'Stawka goý',ended:'Auksion tamamlandy',own:'Siziň auksionyňyz',empty:'Auksion ýok',comments:'Teswirler',cmt_ph:'Teswir ýazyň...',send:'Ibermek',won:'Alan harytlarym',mine:'Goýan harytlarym',edit:'Sazlamalar',uname:'Ulanyjy ady',bio:'Özüm barada',avatar:'Profil suraty',save:'Ýatda sakla',chat:'Chat',msg_ph:'Habar ýazyň...',needlogin:'Ilki bilen ulgama giriň!',gerr:'Diňe @gmail.com salgysy ýazyň!',err:'Ýalňyşlyk: ',views:'görülen',win:'Utan',wait:'Henizlik utan ýok',saved:'Ýatda saklandy',live:'Dowam edýär',contact:'Aragatnaşyk',chatonly:'Chat auksion gutarandan soň açylýar'},
+en:{title_page:'Live Auctions',search:'Search...',login_h:'Login or Sign up',email:'E-mail',pass:'Password (min 6)',login:'Login',signup:'Sign up',logout:'Logout',add:'+ Auction',new_h:'New Auction',name_i:'Item name',desc:'Description',photo:'Photo',start:'Starting price (TMT)',step:'Min step (TMT)',dur:'Duration',phone:'Phone (optional)',gmail:'Gmail (required)',publish:'Publish',seller:'Seller',leader:'Leader',nobid:'No bids',cur:'Current price',bidb:'Place bid',ended:'Auction ended',own:'Your auction',empty:'No auctions',comments:'Comments',cmt_ph:'Write a comment...',send:'Send',won:'Items I won',mine:'My listings',edit:'Settings',uname:'Username',bio:'About me',avatar:'Avatar',save:'Save',chat:'Chat',msg_ph:'Type a message...',needlogin:'Please log in first!',gerr:'Enter a @gmail.com address!',err:'Error: ',views:'views',win:'Winner',wait:'No winner yet',saved:'Saved',live:'Live',contact:'Contact',chatonly:'Chat opens after the auction ends'},
+ru:{title_page:'Живые аукционы',search:'Поиск...',login_h:'Вход или регистрация',email:'E-mail',pass:'Пароль (мин. 6)',login:'Войти',signup:'Регистрация',logout:'Выйти',add:'+ Аукцион',new_h:'Новый аукцион',name_i:'Название товара',desc:'Описание',photo:'Фото',start:'Начальная цена (TMT)',step:'Мин. шаг (TMT)',dur:'Длительность',phone:'Телефон (необязательно)',gmail:'Gmail (обязательно)',publish:'Опубликовать',seller:'Продавец',leader:'Лидер',nobid:'Нет ставок',cur:'Текущая цена',bidb:'Сделать ставку',ended:'Аукцион завершён',own:'Ваш аукцион',empty:'Нет аукционов',comments:'Комментарии',cmt_ph:'Напишите комментарий...',send:'Отправить',won:'Выигранные товары',mine:'Мои лоты',edit:'Настройки',uname:'Имя',bio:'О себе',avatar:'Аватар',save:'Сохранить',chat:'Чат',msg_ph:'Сообщение...',needlogin:'Сначала войдите!',gerr:'Введите адрес @gmail.com!',err:'Ошибка: ',views:'просмотров',win:'Победитель',wait:'Победителя нет',saved:'Сохранено',live:'Идёт',contact:'Контакты',chatonly:'Чат открывается после окончания аукциона'}};
+const t=k=>D[lang][k]||k;
+function tr(){document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.querySelectorAll('[data-ph]').forEach(e=>e.placeholder=t(e.dataset.ph));$('lang').value=lang;navBar()}
+function setLang(l){lang=l;localStorage.lang=l;tr();render()}
+function toggleTheme(){const n=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=n;localStorage.theme=n}
+document.documentElement.dataset.theme=localStorage.theme||'dark';
+const openM=id=>$(id).classList.add('on');
+function closeM(id){$(id).classList.remove('on');if(id==='chat'&&chatCh){db.removeChannel(chatCh);chatCh=null}}
+const uname=id=>P[id]?.username||'User';
+const av=id=>{const p=P[id]||{};return p.avatar_url?`<img class="av" src="${esc(p.avatar_url)}">`:`<span class="av">${esc(uname(id)[0]||'?').toUpperCase()}</span>`};
+const ended=a=>new Date(a.ends_at)<=new Date();
+async function upload(file,folder){const n=`${folder}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g,'')}`;const{error}=await db.storage.from('auction-images').upload(n,file);if(error)throw error;return db.storage.from('auction-images').getPublicUrl(n).data.publicUrl}
 
-  let currentUser = null;
-  let profilesMap = {};
-  let auctionsData = [];
+async function init(){
+  tr();
+  const{data:{session}}=await db.auth.getSession();me=session?.user||null;
+  db.auth.onAuthStateChange((_e,s)=>{me=s?.user||null;loadAll()});
+  await loadAll();
+  let d;const re=()=>{clearTimeout(d);d=setTimeout(loadAll,400)};
+  ['auctions','likes','comments'].forEach(tb=>db.channel('rt-'+tb).on('postgres_changes',{event:'*',schema:'public',table:tb},re).subscribe());
+  setInterval(timers,1000);
+}
+async function loadAll(){
+  const[p,a,l,c]=await Promise.all([db.from('profiles').select('*'),db.from('auctions').select('*').order('created_at',{ascending:false}),db.from('likes').select('*'),db.from('comments').select('id,auction_id')]);
+  P={};(p.data||[]).forEach(x=>P[x.id]=x);A=a.data||[];L=l.data||[];C=c.data||[];
+  navBar();render();
+}
+function navBar(){
+  $('nav').innerHTML=me?`<a class="u" onclick="openProfile('${me.id}','won')">${av(me.id)} ${esc(uname(me.id))}</a><button onclick="openM('create')">${t('add')}</button><button class="sec" onclick="logout()">${t('logout')}</button>`:`<button onclick="openM('auth')">${t('login')} / ${t('signup')}</button>`;
+}
+function render(){
+  const q=$('search').value.toLowerCase();
+  const items=A.filter(a=>(a.title||'').toLowerCase().includes(q));
+  $('list').innerHTML=items.length?items.map(a=>{
+    const nb=Number(a.current_price)+(a.winner_id?Number(a.min_step):0),e=ended(a);
+    const lk=L.filter(x=>x.auction_id===a.id),liked=me&&lk.some(x=>x.user_id===me.id);
+    return `<div class="card"><img class="im" src="${esc(a.image_url||'https://via.placeholder.com/400x210/151821/f5b942?text=AUKSION')}" onclick="openDetail('${a.id}')">
+    <div class="cb"><div class="muted">${t('seller')}: <a class="u" onclick="openProfile('${a.seller_id}','mine')">${esc(uname(a.seller_id))}</a></div>
+    <div class="ct" onclick="openDetail('${a.id}')">${esc(a.title)}</div>
+    <div class="stats"><span class="${liked?'liked':''}" onclick="like('${a.id}')">${liked?'❤️':'🤍'} ${lk.length}</span><span onclick="openDetail('${a.id}')">💬 ${C.filter(x=>x.auction_id===a.id).length}</span><span>👁 ${a.views||0}</span></div>
+    <div class="pb"><div class="pr"><span class="muted">${t('cur')}</span><span class="price">${a.current_price} TMT</span></div>
+    <div class="pr"><span class="muted">🏆 ${a.winner_id?esc(uname(a.winner_id)):t('nobid')}</span><span class="timer" data-e="${a.ends_at}"></span></div></div>
+    ${e?`<button disabled>${t('ended')}</button>`:me&&me.id===a.seller_id?`<button class="sec" disabled>${t('own')}</button>`:`<div class="bid"><input id="b-${a.id}" type="number" value="${nb}" min="${nb}"><button onclick="bid('${a.id}')">${t('bidb')}</button></div>`}
+    </div></div>`}).join(''):`<p class="muted">${t('empty')}</p>`;
+  timers();
+}
+function timers(){document.querySelectorAll('.timer').forEach(el=>{const d=new Date(el.dataset.e)-new Date();if(d<=0){el.textContent='00:00:00';el.classList.remove('u');return}
+  const dd=Math.floor(d/864e5),h=Math.floor(d%864e5/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3),p=n=>String(n).padStart(2,'0');
+  el.textContent=(dd?dd+'d ':'')+`${p(h)}:${p(m)}:${p(s)}`;el.classList.toggle('u',d<20000)})}
 
-  // Başlangyç
-  async function init() {
-    const { data: { session } } = await db.auth.getSession();
-    currentUser = session?.user || null;
-    updateNavbar();
+async function auth(type){
+  const email=$('a-email').value.trim(),password=$('a-pass').value;if(!email||!password)return;
+  const{error}=type==='login'?await db.auth.signInWithPassword({email,password}):await db.auth.signUp({email,password});
+  if(error)alert(t('err')+error.message);else closeM('auth');
+}
+const logout=()=>db.auth.signOut();
+async function bid(id){if(!me)return openM('auth');const{error}=await db.rpc('place_bid',{p_auction_id:id,p_amount:Number($('b-'+id).value)});if(error)alert(t('err')+error.message);else loadAll()}
+async function like(id){if(!me)return openM('auth');
+  const has=L.some(x=>x.auction_id===id&&x.user_id===me.id);
+  if(has)await db.from('likes').delete().match({auction_id:id,user_id:me.id});else await db.from('likes').insert({auction_id:id,user_id:me.id});
+  loadAll();if($('detail').classList.contains('on'))openDetail(id,true)}
 
-    db.auth.onAuthStateChange((_event, session) => {
-      currentUser = session?.user || null;
-      updateNavbar();
-      renderAuctions();
-    });
+async function createAuction(){
+  if(!me)return alert(t('needlogin'));
+  const title=$('c-title').value.trim(),price=Number($('c-price').value),gmail=$('c-gmail').value.trim();
+  if(!title||price<=0)return alert(t('err')+t('name_i'));
+  if(!/^[^\s@]+@gmail\.com$/i.test(gmail))return alert(t('gerr'));
+  const b=$('c-btn');b.disabled=true;
+  try{
+    const f=$('c-img').files[0];const image_url=f?await upload(f,'items'):null;
+    const{error}=await db.from('auctions').insert({seller_id:me.id,title,description:$('c-desc').value.trim(),image_url,start_price:price,current_price:price,min_step:Number($('c-step').value)||1,ends_at:new Date(Date.now()+Number($('c-dur').value)*6e4).toISOString(),phone:$('c-phone').value.trim()||null,gmail});
+    if(error)throw error;closeM('create');['c-title','c-desc','c-phone','c-gmail'].forEach(i=>$(i).value='');
+  }catch(e){alert(t('err')+e.message)}
+  b.disabled=false;
+}
 
-    await loadProfiles();
-    await loadAuctions();
-    subscribeRealtime();
-    setInterval(updateTimers, 1000);
-  }
+async function openDetail(id,noView){
+  const a=A.find(x=>x.id===id);if(!a)return;
+  if(!noView)db.rpc('increment_view',{p_id:id});
+  const{data}=await db.from('comments').select('*').eq('auction_id',id).order('created_at');
+  const lk=L.filter(x=>x.auction_id===id),liked=me&&lk.some(x=>x.user_id===me.id);
+  $('detail-c').innerHTML=`<button class="x" onclick="closeM('detail')">&times;</button>
+  ${a.image_url?`<img src="${esc(a.image_url)}" style="width:100%;border-radius:12px;margin-bottom:10px">`:''}
+  <h3>${esc(a.title)}</h3><p class="muted" style="margin:6px 0">${esc(a.description)}</p>
+  <p class="muted">${t('seller')}: <a class="u" onclick="openProfile('${a.seller_id}','mine')">${esc(uname(a.seller_id))}</a> · 👁 ${(a.views||0)+(noView?0:1)} ${t('views')}</p>
+  <p class="muted">📞 ${esc(a.phone||'—')} · ✉️ ${esc(a.gmail||'—')}</p>
+  <div class="stats" style="margin:10px 0"><span class="${liked?'liked':''}" onclick="like('${id}')">${liked?'❤️':'🤍'} ${lk.length}</span></div>
+  <h4>${t('comments')}</h4>
+  ${(data||[]).map(c=>`<div class="cm">${av(c.user_id)} <b><a class="u" onclick="openProfile('${c.user_id}','mine')">${esc(uname(c.user_id))}</a></b>
+  ${me&&me.id===c.user_id?`<a class="u" style="float:right" onclick="delC('${c.id}','${id}')">🗑</a>`:''}<div>${esc(c.body)}</div></div>`).join('')}
+  <div class="bid" style="margin-top:10px"><input id="cm-in" placeholder="${t('cmt_ph')}" style="margin:0"><button onclick="postC('${id}')">${t('send')}</button></div>`;
+  openM('detail');
+}
+async function postC(id){if(!me)return openM('auth');const b=$('cm-in').value.trim();if(!b)return;
+  const{error}=await db.from('comments').insert({auction_id:id,user_id:me.id,body:b});if(error)alert(t('err')+error.message);else{loadAll();openDetail(id,true)}}
+async function delC(cid,id){await db.from('comments').delete().eq('id',cid);loadAll();openDetail(id,true)}
 
-  function updateNavbar() {
-    const nav = document.getElementById('nav-actions');
-    if (currentUser) {
-      const uname = profilesMap[currentUser.id] || currentUser.email.split('@')[0];
-      nav.innerHTML = `
-        <span class="badge">👤 ${uname}</span>
-        <button onclick="openModal('create-modal')">+ Auksion Goş</button>
-        <button class="secondary" onclick="logout()">Çykmak</button>
-      `;
-    } else {
-      nav.innerHTML = `<button onclick="openModal('auth-modal')">Giriş / Registrasiýa</button>`;
-    }
-  }
+function row(a,other){
+  const e=ended(a);
+  return `<div class="row"><img src="${esc(a.image_url||'https://via.placeholder.com/56')}"><div style="flex:1"><b>${esc(a.title)}</b><div class="muted">${a.current_price} TMT · ${e?t('ended'):t('live')}</div>
+  <div class="muted">${other?`${other[0]}: <a class="u" onclick="openProfile('${other[1]}','mine')">${esc(uname(other[1]))}</a>`:t('wait')}</div>
+  ${other&&e?`<div class="muted">📞 ${esc(a.phone||'—')} ✉️ ${esc(a.gmail||'')}</div>`:''}</div>
+  ${other&&e?`<button onclick="openChat('${a.id}','${other[1]}')">💬 ${t('chat')}</button>`:''}</div>`;
+}
+function openProfile(uid,tab){
+  const own=me&&me.id===uid,p=P[uid]||{};
+  let body='';
+  if(tab==='won'&&own)body=A.filter(a=>a.winner_id===uid&&ended(a)).map(a=>row(a,[t('seller'),a.seller_id])).join('');
+  else if(tab==='mine')body=A.filter(a=>a.seller_id===uid).map(a=>row(a,own&&a.winner_id?[t('win'),a.winner_id]:null)).join('');
+  else if(tab==='edit'&&own)body=`<label>${t('uname')}</label><input id="p-name" value="${esc(p.username)}"><label>${t('bio')}</label><textarea id="p-bio" rows="3">${esc(p.bio)}</textarea><label>${t('avatar')}</label><input type="file" id="p-av" accept="image/*"><button style="width:100%" onclick="saveProfile()">${t('save')}</button>`;
+  $('profile-c').innerHTML=`<button class="x" onclick="closeM('profile')">&times;</button>
+  <div style="display:flex;gap:12px;align-items:center">${av(uid).replace('class="av"','class="av" style="width:64px;height:64px;font-size:1.6rem"')}<div><h3>${esc(p.username)}</h3><div class="muted">${esc(p.bio)}</div></div></div>
+  <div class="tabs">${own?`<button class="${tab==='won'?'':'sec'}" onclick="openProfile('${uid}','won')">${t('won')}</button>`:''}<button class="${tab==='mine'?'':'sec'}" onclick="openProfile('${uid}','mine')">${t('mine')}</button>${own?`<button class="${tab==='edit'?'':'sec'}" onclick="openProfile('${uid}','edit')">${t('edit')}</button>`:''}</div>
+  ${body||(tab==='edit'?'':`<p class="muted">${t('empty')}</p>`)}`;
+  openM('profile');
+}
+async function saveProfile(){
+  try{
+    const u={username:$('p-name').value.trim()||uname(me.id),bio:$('p-bio').value.trim()};
+    const f=$('p-av').files[0];if(f)u.avatar_url=await upload(f,'avatars');
+    const{error}=await db.from('profiles').update(u).eq('id',me.id);if(error)throw error;
+    await loadAll();openProfile(me.id,'edit');
+  }catch(e){alert(t('err')+e.message)}
+}
 
-  async function loadProfiles() {
-    const { data } = await db.from('profiles').select('id, username');
-    if (data) {
-      data.forEach(p => profilesMap[p.id] = p.username);
-    }
-  }
-
-  async function loadAuctions() {
-    const { data, error } = await db
-      .from('auctions')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (!error && data) {
-      auctionsData = data;
-      renderAuctions();
-    }
-  }
-
-  // Real-Time: Täze stawka ýa-da täze haryt goşulanda awtomatiki täzelenýär
-  function subscribeRealtime() {
-    db.channel('public:auctions')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'auctions' }, async () => {
-        await loadProfiles();
-        await loadAuctions();
-      })
-      .subscribe();
-  }
-
-  function renderAuctions() {
-    const list = document.getElementById('auction-list');
-    if (auctionsData.length === 0) {
-      list.innerHTML = '<p style="color: var(--text-muted);">Häzirlikçe işjeň auksion ýok. Ilkinji bolup özüňiz goşuň!</p>';
-      return;
-    }
-
-    list.innerHTML = auctionsData.map(item => {
-      const isEnded = new Date(item.ends_at) <= new Date();
-      const nextMinBid = Number(item.current_price) + (item.winner_id ? Number(item.min_step) : 0);
-      const sellerName = profilesMap[item.seller_id] || 'Satyjy';
-      const winnerName = item.winner_id ? (profilesMap[item.winner_id] || 'Gatnaşyjy') : 'Entek stawka ýok';
-      const isOwner = currentUser && currentUser.id === item.seller_id;
-
-      return `
-        <div class="card">
-          <img class="card-img" src="${item.image_url || 'https://via.placeholder.com/400x220/1a1d24/f5b942?text=Surat+Yok'}" alt="${item.title}" />
-          <div class="card-body">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-size:0.8rem; color:var(--gold);">Satyjy: ${sellerName}</span>
-              <span style="font-size:0.8rem; color:var(--text-muted);">Ädim: +${item.min_step} TMT</span>
-            </div>
-            <div class="card-title">${item.title}</div>
-            <div class="card-desc">${item.description || ''}</div>
-            
-            <div class="price-box">
-              <div class="price-row">
-                <span style="font-size:0.85rem; color:var(--text-muted);">Häzirki baha:</span>
-                <span class="current-price">${item.current_price} TMT</span>
-              </div>
-              <div class="price-row">
-                <span class="leader-info">🏆 Öňdebaryjy: <b>${winnerName}</b></span>
-                <span class="timer" data-ends="${item.ends_at}">...</span>
-              </div>
-            </div>
-
-            ${isEnded 
-              ? `<button disabled style="width:100%; background:#374151; color:#9ca3af;">Auksion Tamamlandy</button>`
-              : isOwner 
-                ? `<button disabled class="secondary" style="width:100%;">Bu Siziň Öz Auksionyňyz</button>`
-                : `<div class="bid-controls">
-                    <input type="number" id="bid-input-${item.id}" value="${nextMinBid}" min="${nextMinBid}" />
-                    <button onclick="placeBid('${item.id}')">Stawka Goý</button>
-                  </div>`
-            }
-          </div>
-        </div>
-      `;
-    }).join('');
-    updateTimers();
-  }
-
-  // Taýmerleri her sekunt täzelemek
-  function updateTimers() {
-    document.querySelectorAll('.timer').forEach(el => {
-      const endsAt = new Date(el.getAttribute('data-ends'));
-      const diff = endsAt - new Date();
-
-      if (diff <= 0) {
-        el.textContent = 'Gutardy';
-        el.classList.remove('urgent');
-        return;
-      }
-
-      const hrs = Math.floor(diff / (1000 * 60 * 60));
-      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-      el.textContent = `${hrs}s ${mins}m ${secs}sek`;
-      if (diff < 20000) el.classList.add('urgent');
-      else el.classList.remove('urgent');
-    });
-  }
-
-  // Registrasiýa we Giriş
-  async function handleAuth(type) {
-    const email = document.getElementById('auth-email').value.trim();
-    const password = document.getElementById('auth-password').value;
-    if (!email || !password) return alert('E-poçta we paroly ýazyň!');
-
-    const { error } = type === 'login'
-      ? await db.auth.signInWithPassword({ email, password })
-      : await db.auth.signUp({ email, password });
-
-    if (error) alert('Ýalňyşlyk: ' + error.message);
-    else {
-      closeModal('auth-modal');
-      await loadProfiles();
-      updateNavbar();
-    }
-  }
-
-  async function logout() {
-    await db.auth.signOut();
-  }
-
-  // Täze auksion döretmek
-  async function createAuction() {
-    if (!currentUser) return alert('Ilki bilen ulgama giriň!');
-
-    const title = document.getElementById('item-title').value.trim();
-    const description = document.getElementById('item-desc').value.trim();
-    const startPrice = Number(document.getElementById('item-price').value);
-    const minStep = Number(document.getElementById('item-step').value);
-    const durationMins = Number(document.getElementById('item-duration').value);
-    const fileInput = document.getElementById('item-image');
-
-    if (!title || startPrice <= 0) return alert('Harydyň adyny we bahasyny dogry giriziň!');
-
-    const btn = document.getElementById('create-btn');
-    btn.disabled = true;
-    btn.textContent = 'Ýüklenýär...';
-
-    let imageUrl = null;
-    if (fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
-      const { error: uploadErr } = await db.storage.from('auction-images').upload(fileName, file);
-      if (!uploadErr) {
-        const { data: urlData } = db.storage.from('auction-images').getPublicUrl(fileName);
-        imageUrl = urlData.publicUrl;
-      }
-    }
-
-    const endsAt = new Date(Date.now() + durationMins * 60000).toISOString();
-
-    const { error } = await db.from('auctions').insert({
-      seller_id: currentUser.id,
-      title,
-      description,
-      image_url: imageUrl,
-      start_price: startPrice,
-      current_price: startPrice,
-      min_step: minStep,
-      ends_at: endsAt
-    });
-
-    btn.disabled = false;
-    btn.textContent = 'Auksiony Ýaýlyma Goýbermek';
-
-    if (error) alert('Ýalňyşlyk: ' + error.message);
-    else {
-      closeModal('create-modal');
-      document.getElementById('item-title').value = '';
-      document.getElementById('item-desc').value = '';
-    }
-  }
-
-  // Stawka goýmak
-  async function placeBid(auctionId) {
-    if (!currentUser) return openModal('auth-modal');
-
-    const amount = Number(document.getElementById(`bid-input-${auctionId}`).value);
-    const { error } = await db.rpc('place_bid', {
-      p_auction_id: auctionId,
-      p_amount: amount
-    });
-
-    if (error) alert(error.message);
-  }
-
-  function openModal(id) { document.getElementById(id).classList.add('active'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-  init();
+async function openChat(aid,other){
+  curChat={aid,other};
+  $('chat-c').innerHTML=`<button class="x" onclick="closeM('chat')">&times;</button><h3>${av(other)} ${esc(uname(other))}</h3>
+  <div class="msgs" id="msgs"></div>
+  <input id="m-in" placeholder="${t('msg_ph')}" onkeydown="if(event.key==='Enter')sendMsg()">
+  <div class="bid"><input type="file" id="m-img" accept="image/*" style="margin:0"><button onclick="sendMsg()">${t('send')}</button></div>`;
+  openM('chat');await loadMsgs();
+  if(chatCh)db.removeChannel(chatCh);
+  chatCh=db.channel('chat-'+aid).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`auction_id=eq.${aid}`},loadMsgs).subscribe();
+}
+async function loadMsgs(){
+  const{data}=await db.from('messages').select('*').eq('auction_id',curChat.aid).order('created_at');
+  const box=$('msgs');if(!box)return;
+  box.innerHTML=(data||[]).filter(m=>[m.sender_id,m.receiver_id].includes(curChat.other)).map(m=>`<div class="m ${m.sender_id===me.id?'me':''}">${m.image_url?`<img src="${esc(m.image_url)}" onclick="window.open(this.src)">`:''}${esc(m.body)}</div>`).join('');
+  box.scrollTop=box.scrollHeight;
+}
+async function sendMsg(){
+  const body=$('m-in').value.trim(),f=$('m-img').files[0];if(!body&&!f)return;
+  try{
+    const image_url=f?await upload(f,'chat'):null;
+    const{error}=await db.from('messages').insert({auction_id:curChat.aid,sender_id:me.id,receiver_id:curChat.other,body:body||null,image_url});
+    if(error)throw error;$('m-in').value='';$('m-img').value='';loadMsgs();
+  }catch(e){alert(t('err')+e.message)}
+}
+init();
 </script>
 </body>
 </html>

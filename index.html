@@ -6,48 +6,106 @@
 <title>AUKSION PRO</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--bg:#07080a;--card:#12151c;--input:#1a1e29;--gold:#f5b942;--text:#f9fafb;--muted:#9ca3af;--danger:#f87171;--ok:#34d399;--bd:rgba(255,255,255,.1)}
-[data-theme=light]{--bg:#f4f5f7;--card:#fff;--input:#eef0f4;--text:#111827;--muted:#6b7280;--bd:rgba(0,0,0,.12)}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,'Segoe UI',system-ui,sans-serif}
+:root{--bg:#0e1621;--card:#17212b;--input:#242f3d;--gold:#f5b942;--text:#f5f7fa;--muted:#8b9aab;--danger:#ff5d73;--ok:#4cd98a;--bd:rgba(255,255,255,.07);--mine:#f5b942;--theirs:#242f3d;--sh:0 10px 30px rgba(0,0,0,.35)}
+[data-theme=light]{--bg:#e9edf2;--card:#fff;--input:#f0f2f5;--text:#0f1722;--muted:#6b7a8c;--bd:rgba(0,0,0,.08);--mine:#ffe08a;--theirs:#fff;--sh:0 10px 30px rgba(20,30,50,.12)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',-apple-system,'Segoe UI',Roboto,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
-header{background:var(--card);border-bottom:1px solid var(--bd);padding:.8rem 4%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:50}
-.logo{font-size:1.5rem;font-weight:900;color:var(--gold);letter-spacing:1px}.logo span{color:var(--text)}
+header{background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd);padding:.7rem 4%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:50}
+.logo{font-size:1.35rem;font-weight:900;color:var(--gold);letter-spacing:.5px}.logo span{color:var(--text)}
 .nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-button{background:linear-gradient(135deg,#f5b942,#d49414);color:#000;border:0;padding:9px 16px;border-radius:10px;font-weight:700;cursor:pointer;transition:.2s}
-button:hover{transform:translateY(-2px)}button:disabled{opacity:.4;cursor:not-allowed}
-button.sec{background:var(--input);color:var(--text);border:1px solid var(--bd)}
-input,textarea,select{width:100%;background:var(--input);border:1px solid var(--bd);color:var(--text);padding:10px 14px;border-radius:10px;margin:5px 0 12px;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+button{background:linear-gradient(135deg,#ffcf66,#e0a020);color:#1a1200;border:0;padding:9px 16px;border-radius:12px;font-weight:700;cursor:pointer;transition:.18s}
+button:hover{transform:translateY(-1px);filter:brightness(1.08)}button:active{transform:scale(.96)}button:disabled{opacity:.4;cursor:not-allowed}
+button.sec{background:var(--input);color:var(--text);box-shadow:none}
+input,textarea,select{width:100%;background:var(--input);border:1px solid transparent;color:var(--text);padding:11px 14px;border-radius:12px;margin:5px 0 12px;outline:none;font-size:.95rem;transition:.2s}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,185,66,.15)}
 .nav select{width:auto;margin:0;padding:8px}
-.wrap{max-width:1250px;margin:2rem auto;padding:0 20px}
-h2.st{border-left:4px solid var(--gold);padding-left:12px;margin-bottom:1.4rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-.card img.im{width:100%;height:210px;object-fit:cover;cursor:pointer;background:var(--input)}
-.cb{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
-.ct{font-weight:700;font-size:1.15rem;cursor:pointer}
+.wrap{max-width:1250px;margin:1.6rem auto 90px;padding:0 18px}
+h2.st{font-size:1.5rem;font-weight:800;margin-bottom:1rem}
+#search{border-radius:30px;padding:13px 20px;background:var(--card);border:1px solid var(--bd);margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+.ld{grid-column:1/-1;text-align:center;padding:80px 10px;font-size:1.1rem;color:var(--muted)}
+.dots span{display:inline-block;width:11px;height:11px;margin:0 4px 14px;border-radius:50%;background:var(--gold);animation:bn 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes bn{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-14px);opacity:1}}
+.card{background:var(--card);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh);transition:.25s;animation:up .4s both}
+.card:hover{transform:translateY(-4px)}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card img.im{width:100%;height:200px;object-fit:cover;cursor:pointer;background:var(--input)}
+.cb{padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px;flex:1}
+.sl{display:flex;align-items:center;gap:8px;font-size:.85rem}.sl .av{width:26px;height:26px;font-size:.75rem}
+.ct{font-weight:700;font-size:1.1rem;cursor:pointer}
 .muted{color:var(--muted);font-size:.85rem}
-.pb{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.pb{background:var(--input);border-radius:14px;padding:11px 13px}
 .pr{display:flex;justify-content:space-between;align-items:center}
-.price{color:var(--gold);font-weight:800;font-size:1.35rem}
-.timer{color:var(--ok);font-weight:700}.timer.u{color:var(--danger)}
-.stats{display:flex;gap:14px;font-size:.9rem;color:var(--muted)}
-.stats span{cursor:pointer}.liked{color:var(--danger)}
+.price{color:var(--gold);font-weight:800;font-size:1.3rem}
+.timer{color:var(--ok);font-weight:700;font-variant-numeric:tabular-nums}.timer.u{color:var(--danger);animation:pl 1s infinite}
+@keyframes pl{50%{opacity:.4}}
+.stats{display:flex;gap:8px;font-size:.88rem;color:var(--muted)}
+.stats span{cursor:pointer;background:var(--input);padding:4px 11px;border-radius:20px;transition:.15s}.stats span:hover{filter:brightness(1.15)}
+.liked{color:var(--danger)!important;animation:pop .35s}
+@keyframes pop{40%{transform:scale(1.35)}}
 .bid{display:flex;gap:8px}.bid input{margin:0}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);justify-content:center;align-items:center;z-index:200;padding:16px}
+.modal{display:none;position:fixed;inset:0;background:rgba(3,6,10,.7);backdrop-filter:blur(6px);justify-content:center;align-items:center;z-index:200;padding:16px}
 .modal.on{display:flex}
-.mc{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:24px;width:100%;max-width:520px;max-height:92vh;overflow:auto;position:relative}
-.x{position:absolute;top:10px;right:14px;background:none;color:var(--muted);font-size:1.6rem;padding:0}
-.av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--gold);color:#000;display:inline-flex;align-items:center;justify-content:center;font-weight:800;vertical-align:middle}
-.tabs{display:flex;gap:8px;margin:14px 0}
-.row{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid var(--bd);border-radius:12px;padding:10px;margin-bottom:8px}
-.row img{width:56px;height:56px;border-radius:8px;object-fit:cover}
-.cm{border-bottom:1px solid var(--bd);padding:8px 0}
-.msgs{height:320px;overflow:auto;display:flex;flex-direction:column;gap:6px;background:var(--bg);padding:10px;border-radius:12px;margin:10px 0}
-.m{max-width:75%;padding:8px 12px;border-radius:12px;background:var(--input);align-self:flex-start;word-break:break-word}
-.m.me{background:var(--gold);color:#000;align-self:flex-end}.m img{max-width:100%;border-radius:8px;display:block}
+.mc{background:var(--card);border-radius:24px;padding:24px;width:100%;max-width:520px;max-height:92vh;overflow:auto;position:relative;box-shadow:var(--sh);animation:up .25s both}
+.x{position:absolute;top:10px;right:14px;background:none;color:var(--muted);font-size:1.6rem;padding:0;box-shadow:none}
+@media(max-width:640px){.modal{align-items:flex-end;padding:0}.mc{border-radius:24px 24px 0 0;max-height:94vh}}
+.av{width:38px;height:38px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,#ffcf66,#e0a020);color:#1a1200;display:inline-flex;align-items:center;justify-content:center;font-weight:800;vertical-align:middle;flex:none}
+.tabs{display:flex;gap:8px;margin:14px 0;overflow:auto}.tabs button{white-space:nowrap}
+.row{display:flex;gap:12px;align-items:center;background:var(--input);border-radius:16px;padding:10px;margin-bottom:10px}
+.row img{width:58px;height:58px;border-radius:12px;object-fit:cover}
 a.u{color:var(--gold);cursor:pointer;font-weight:600}
+.cm{display:flex;gap:9px;margin:10px 0;align-items:flex-end}.cm .av{width:30px;height:30px;font-size:.8rem}
+.cb2{background:var(--input);padding:8px 13px;border-radius:16px 16px 16px 4px;max-width:85%;word-break:break-word}
+.cb2 small{display:block;color:var(--muted);font-size:.7rem;text-align:right}
+.rx{display:flex;gap:6px;margin:14px 0 8px;overflow:auto}
+.chip{background:var(--input);color:var(--text);font-size:1.25rem;padding:5px 12px;border-radius:20px;box-shadow:none}.chip:hover{transform:scale(1.2)}
+.cin,.ch-in{display:flex;gap:8px;align-items:center}.cin input,.ch-in input[type=text]{margin:0;border-radius:24px}
+.send{width:42px;height:42px;border-radius:50%;padding:0;flex:none;font-size:1.05rem}
+.mc.chat{padding:0;max-width:480px;height:min(90vh,740px);display:flex;flex-direction:column;overflow:hidden}
+.ch-h{display:flex;gap:12px;align-items:center;padding:12px 16px;background:var(--card);border-bottom:1px solid var(--bd)}
+.x2{background:none;color:var(--text);font-size:1.4rem;padding:0 6px;box-shadow:none}
+.msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:5px;padding:14px;background:radial-gradient(circle at 20% 10%,rgba(245,185,66,.07),transparent 40%),var(--bg)}
+.m{max-width:78%;padding:7px 11px 5px;border-radius:16px 16px 16px 4px;background:var(--theirs);align-self:flex-start;word-break:break-word;animation:up .2s both;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.m.me{background:var(--mine);color:#1a1200;border-radius:16px 16px 4px 16px;align-self:flex-end}
+.m img{max-width:100%;max-height:260px;border-radius:12px;display:block;margin-bottom:4px;cursor:zoom-in}
+.m.ph{padding:4px}.m i{display:block;font-size:.68rem;font-style:normal;opacity:.6;text-align:right;margin-top:1px}
+.ch-in{padding:10px 12px;background:var(--card);border-top:1px solid var(--bd)}
+.clip{font-size:1.4rem;cursor:pointer;padding:0 4px}
+.pv{display:none;padding:8px 14px;background:var(--card);align-items:center;gap:10px}.pv img{height:54px;border-radius:10px}
+.fab{position:fixed;right:20px;bottom:22px;width:58px;height:58px;border-radius:50%;font-size:2rem;padding:0;display:none;align-items:center;justify-content:center;z-index:60;box-shadow:0 8px 24px rgba(245,185,66,.45)}
+
+button,.pill,.logo,.av,.tabs,.timer,.sl,.ct,.card img,header,.fab,.x2,.chip,.clip,.stats{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+img{-webkit-user-drag:none}
+button svg,.pill svg{display:block;flex:none}.row button{display:flex;gap:6px;align-items:center}
+.pill{background:var(--input);color:var(--muted);box-shadow:none;padding:6px 13px;border-radius:20px;display:inline-flex;gap:6px;align-items:center;font-size:.88rem;font-weight:600}
+.pill.liked{color:var(--danger)}
+.stats span.pill{cursor:default}
+.modal.full{padding:0;align-items:stretch;background:var(--bg)}
+.mc.full{max-width:none;width:100%;height:100%;max-height:100%;border-radius:0;padding:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:none;animation:up .25s both}
+.tb{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card);border-bottom:1px solid var(--bd);font-size:1.05rem}
+.x2{background:none;color:var(--text);padding:6px;box-shadow:none;border-radius:50%}
+.mc.full .ch-h{padding:10px max(12px,calc((100% - 760px)/2))}
+.mc.full .msgs{padding:14px max(14px,calc((100% - 760px)/2))}
+.mc.full .ch-in{padding:10px max(12px,calc((100% - 760px)/2))}
+.msgs .ld{margin:auto;padding:20px}
+.pbody{flex:1;overflow:auto}.pin{max-width:760px;margin:0 auto;padding:0 16px 40px}
+.hero{background:linear-gradient(160deg,rgba(245,185,66,.4),transparent 70%),var(--card);padding:28px 16px 20px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.av.big{width:92px;height:92px;font-size:2.2rem;border:3px solid var(--bg)}
+.cnt{display:flex;gap:30px;margin-top:8px}.cnt b{display:block;font-size:1.2rem}
+.erow{display:flex;gap:16px;align-items:center;background:var(--input);border-radius:20px;padding:14px;margin-bottom:14px}
+.erow input{margin:4px 0 0;background:var(--card)}
+.avedit{position:relative;cursor:pointer;flex:none}
+.cam{position:absolute;right:-2px;bottom:-2px;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1a1200;display:flex;align-items:center;justify-content:center;border:3px solid var(--input)}
+.sv{width:100%;padding:13px;font-size:1rem}
+.toasts{position:fixed;left:0;right:0;bottom:24px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:900;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;background:var(--card);color:var(--text);padding:11px 18px 11px 12px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,.45);border:1px solid var(--bd);font-size:.92rem;font-weight:600;animation:tin .3s both,tout .3s 2.4s forwards;max-width:92vw}
+.toast i{width:24px;height:24px;border-radius:50%;background:var(--ok);color:#06210f;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:.8rem;font-weight:900;flex:none}
+.toast.err i{background:var(--danger);color:#fff}
+@keyframes tin{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes tout{to{opacity:0;transform:translateY(10px)}}
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -61,7 +119,7 @@ a.u{color:var(--gold);cursor:pointer;font-weight:600}
 <div class="wrap">
   <h2 class="st" data-i="title_page"></h2>
   <input id="search" data-ph="search" oninput="render()">
-  <div class="grid" id="list"></div>
+  <div class="grid" id="list"><div class="ld"><div class="dots"><span></span><span></span><span></span></div><p data-i="loading"></p></div></div>
 </div>
 
 <div class="modal" id="auth"><div class="mc"><button class="x" onclick="closeM('auth')">&times;</button>
@@ -79,15 +137,17 @@ a.u{color:var(--gold);cursor:pointer;font-weight:600}
   <div class="bid"><div style="flex:1"><label data-i="start"></label><input type="number" id="c-price" value="100" min="1"></div>
   <div style="flex:1"><label data-i="step"></label><input type="number" id="c-step" value="10" min="1"></div></div>
   <label data-i="dur"></label>
-  <select id="c-dur"><option value="5">5 min</option><option value="60">1 h</option><option value="360">6 h</option><option value="1440" selected>24 h</option><option value="4320">3 d</option></select>
+  <select id="c-dur"><option value="5" data-i="d5"></option><option value="60" data-i="d60"></option><option value="360" data-i="d360"></option><option value="1440" selected data-i="d1440"></option><option value="4320" data-i="d4320"></option></select>
   <label data-i="phone"></label><input id="c-phone" placeholder="+993 6x xxxxxx">
   <label data-i="gmail"></label><input type="email" id="c-gmail" placeholder="name@gmail.com">
   <button style="width:100%" id="c-btn" onclick="createAuction()" data-i="publish"></button>
 </div></div>
 
+<div class="toasts" id="toasts"></div>
+<button class="fab" id="fab" onclick="openM('create')">+</button>
 <div class="modal" id="detail"><div class="mc" id="detail-c"></div></div>
-<div class="modal" id="profile"><div class="mc" id="profile-c"></div></div>
-<div class="modal" id="chat"><div class="mc" id="chat-c"></div></div>
+<div class="modal full" id="profile"><div class="mc" id="profile-c"></div></div>
+<div class="modal full" id="chat"><div class="mc" id="chat-c"></div></div>
 
 <script>
 const db=supabase.createClient('https://wlgdcpzxhtmwxuarwesk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZ2RjcHp4aHRtd3h1YXJ3ZXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NDcwMzIsImV4cCI6MjExMDAyMzAzMn0.DLpu_QCs0YYKuX0EWoPSuPE5mwKey1XlvNUXecAJ2zk');
@@ -95,9 +155,9 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let lang=localStorage.lang||'tk',me=null,P={},A=[],L=[],C=[],curChat=null,chatCh=null,tmr=null;
 const D={
-tk:{title_page:'Janly Auksionlar',search:'Gözleg...',login_h:'Giriş ýa-da Registrasiýa',email:'E-poçta',pass:'Parol (iň az 6)',login:'Giriş',signup:'Registrasiýa',logout:'Çykmak',add:'+ Auksion',new_h:'Täze Auksion',name_i:'Harydyň ady',desc:'Beýany',photo:'Surat',start:'Başlangyç baha (TMT)',step:'Iň az ädim (TMT)',dur:'Dowamlylygy',phone:'Telefon (hökman däl)',gmail:'Gmail (hökman)',publish:'Ýaýlyma goýmak',seller:'Satyjy',leader:'Öňdebaryjy',nobid:'Stawka ýok',cur:'Häzirki baha',bidb:'Stawka goý',ended:'Auksion tamamlandy',own:'Siziň auksionyňyz',empty:'Auksion ýok',comments:'Teswirler',cmt_ph:'Teswir ýazyň...',send:'Ibermek',won:'Alan harytlarym',mine:'Goýan harytlarym',edit:'Sazlamalar',uname:'Ulanyjy ady',bio:'Özüm barada',avatar:'Profil suraty',save:'Ýatda sakla',chat:'Chat',msg_ph:'Habar ýazyň...',needlogin:'Ilki bilen ulgama giriň!',gerr:'Diňe @gmail.com salgysy ýazyň!',err:'Ýalňyşlyk: ',views:'görülen',win:'Utan',wait:'Henizlik utan ýok',saved:'Ýatda saklandy',live:'Dowam edýär',contact:'Aragatnaşyk',chatonly:'Chat auksion gutarandan soň açylýar'},
-en:{title_page:'Live Auctions',search:'Search...',login_h:'Login or Sign up',email:'E-mail',pass:'Password (min 6)',login:'Login',signup:'Sign up',logout:'Logout',add:'+ Auction',new_h:'New Auction',name_i:'Item name',desc:'Description',photo:'Photo',start:'Starting price (TMT)',step:'Min step (TMT)',dur:'Duration',phone:'Phone (optional)',gmail:'Gmail (required)',publish:'Publish',seller:'Seller',leader:'Leader',nobid:'No bids',cur:'Current price',bidb:'Place bid',ended:'Auction ended',own:'Your auction',empty:'No auctions',comments:'Comments',cmt_ph:'Write a comment...',send:'Send',won:'Items I won',mine:'My listings',edit:'Settings',uname:'Username',bio:'About me',avatar:'Avatar',save:'Save',chat:'Chat',msg_ph:'Type a message...',needlogin:'Please log in first!',gerr:'Enter a @gmail.com address!',err:'Error: ',views:'views',win:'Winner',wait:'No winner yet',saved:'Saved',live:'Live',contact:'Contact',chatonly:'Chat opens after the auction ends'},
-ru:{title_page:'Живые аукционы',search:'Поиск...',login_h:'Вход или регистрация',email:'E-mail',pass:'Пароль (мин. 6)',login:'Войти',signup:'Регистрация',logout:'Выйти',add:'+ Аукцион',new_h:'Новый аукцион',name_i:'Название товара',desc:'Описание',photo:'Фото',start:'Начальная цена (TMT)',step:'Мин. шаг (TMT)',dur:'Длительность',phone:'Телефон (необязательно)',gmail:'Gmail (обязательно)',publish:'Опубликовать',seller:'Продавец',leader:'Лидер',nobid:'Нет ставок',cur:'Текущая цена',bidb:'Сделать ставку',ended:'Аукцион завершён',own:'Ваш аукцион',empty:'Нет аукционов',comments:'Комментарии',cmt_ph:'Напишите комментарий...',send:'Отправить',won:'Выигранные товары',mine:'Мои лоты',edit:'Настройки',uname:'Имя',bio:'О себе',avatar:'Аватар',save:'Сохранить',chat:'Чат',msg_ph:'Сообщение...',needlogin:'Сначала войдите!',gerr:'Введите адрес @gmail.com!',err:'Ошибка: ',views:'просмотров',win:'Победитель',wait:'Победителя нет',saved:'Сохранено',live:'Идёт',contact:'Контакты',chatonly:'Чат открывается после окончания аукциона'}};
+tk:{title_page:'Janly Auksionlar',loading:'Auksionlar ýüklenýär, garaşyň',chatload:'Chat ýüklenýär',ok_login:'Hoş geldiňiz! Ulgama girdiňiz',ok_signup:'Hasap döredildi',ok_out:'Ulgamdan çykdyňyz',ok_bid:'Stawkaňyz kabul edildi',ok_pub:'Auksion ýaýlyma goýuldy',ok_cmt:'Teswiriňiz ugradyldy',ok_del:'Teswir pozuldy',ok_prof:'Profil täzelendi',ok_av:'Profil suraty üýtgedildi',ok_photo:'Surat ugradyldy',fill:'Maglumatlary doly dolduryň',e_gen:'Ýalňyşlyk ýüze çykdy, gaýtadan synanyşyň',e_low:'Stawka gaty pes',e_end:'Auksion gutardy',e_own:'Öz auksionyňyza stawka goýup bolmaýar',e_login:'E-poçta ýa-da parol nädogry',e_exist:'Bu e-poçta eýýäm hasaba alnan',e_pass:'Parol iň az 6 nyşan bolmaly',e_net:'Baglanyşyk ýok, gaýtadan synanyşyň',dd:'g',d5:'5 minut',d60:'1 sagat',d360:'6 sagat',d1440:'24 sagat',d4320:'3 gün',search:'Gözleg...',login_h:'Giriş ýa-da Registrasiýa',email:'E-poçta',pass:'Parol (iň az 6)',login:'Giriş',signup:'Registrasiýa',logout:'Çykmak',add:'+ Auksion',new_h:'Täze Auksion',name_i:'Harydyň ady',desc:'Beýany',photo:'Surat',start:'Başlangyç baha (TMT)',step:'Iň az ädim (TMT)',dur:'Dowamlylygy',phone:'Telefon (hökman däl)',gmail:'Gmail (hökman)',publish:'Ýaýlyma goýmak',seller:'Satyjy',leader:'Öňdebaryjy',nobid:'Stawka ýok',cur:'Häzirki baha',bidb:'Stawka goý',ended:'Auksion tamamlandy',own:'Siziň auksionyňyz',empty:'Auksion ýok',comments:'Teswirler',cmt_ph:'Teswir ýazyň...',send:'Ibermek',won:'Alan harytlarym',mine:'Goýan harytlarym',edit:'Sazlamalar',uname:'Ulanyjy ady',bio:'Özüm barada',avatar:'Profil suraty',save:'Ýatda sakla',chat:'Chat',msg_ph:'Habar ýazyň...',needlogin:'Ilki bilen ulgama giriň!',gerr:'Diňe @gmail.com salgysy ýazyň!',err:'Ýalňyşlyk: ',views:'görülen',win:'Utan',wait:'Henizlik utan ýok',saved:'Ýatda saklandy',live:'Dowam edýär',contact:'Aragatnaşyk',chatonly:'Chat auksion gutarandan soň açylýar'},
+en:{title_page:'Live Auctions',loading:'Loading auctions, please wait',chatload:'Opening chat',ok_login:'Welcome back!',ok_signup:'Account created',ok_out:'You have logged out',ok_bid:'Your bid was accepted',ok_pub:'Auction published',ok_cmt:'Your comment was sent',ok_del:'Comment deleted',ok_prof:'Profile updated',ok_av:'Profile photo changed',ok_photo:'Photo sent',fill:'Please fill in all fields',e_gen:'Something went wrong, please try again',e_low:'Bid is too low',e_end:'Auction has ended',e_own:'You cannot bid on your own auction',e_login:'Wrong e-mail or password',e_exist:'This e-mail is already registered',e_pass:'Password must be at least 6 characters',e_net:'No connection, please try again',dd:'d',d5:'5 min',d60:'1 hour',d360:'6 hours',d1440:'24 hours',d4320:'3 days',search:'Search...',login_h:'Login or Sign up',email:'E-mail',pass:'Password (min 6)',login:'Login',signup:'Sign up',logout:'Logout',add:'+ Auction',new_h:'New Auction',name_i:'Item name',desc:'Description',photo:'Photo',start:'Starting price (TMT)',step:'Min step (TMT)',dur:'Duration',phone:'Phone (optional)',gmail:'Gmail (required)',publish:'Publish',seller:'Seller',leader:'Leader',nobid:'No bids',cur:'Current price',bidb:'Place bid',ended:'Auction ended',own:'Your auction',empty:'No auctions',comments:'Comments',cmt_ph:'Write a comment...',send:'Send',won:'Items I won',mine:'My listings',edit:'Settings',uname:'Username',bio:'About me',avatar:'Avatar',save:'Save',chat:'Chat',msg_ph:'Type a message...',needlogin:'Please log in first!',gerr:'Enter a @gmail.com address!',err:'Error: ',views:'views',win:'Winner',wait:'No winner yet',saved:'Saved',live:'Live',contact:'Contact',chatonly:'Chat opens after the auction ends'},
+ru:{title_page:'Живые аукционы',loading:'Загрузка аукционов, подождите',chatload:'Открываем чат',ok_login:'Добро пожаловать!',ok_signup:'Аккаунт создан',ok_out:'Вы вышли',ok_bid:'Ставка принята',ok_pub:'Аукцион опубликован',ok_cmt:'Комментарий отправлен',ok_del:'Комментарий удалён',ok_prof:'Профиль обновлён',ok_av:'Фото профиля изменено',ok_photo:'Фото отправлено',fill:'Заполните все поля',e_gen:'Произошла ошибка, попробуйте ещё раз',e_low:'Ставка слишком низкая',e_end:'Аукцион завершён',e_own:'Нельзя ставить на свой аукцион',e_login:'Неверная почта или пароль',e_exist:'Эта почта уже зарегистрирована',e_pass:'Пароль минимум 6 символов',e_net:'Нет соединения, попробуйте ещё раз',dd:'д',d5:'5 мин',d60:'1 час',d360:'6 часов',d1440:'24 часа',d4320:'3 дня',search:'Поиск...',login_h:'Вход или регистрация',email:'E-mail',pass:'Пароль (мин. 6)',login:'Войти',signup:'Регистрация',logout:'Выйти',add:'+ Аукцион',new_h:'Новый аукцион',name_i:'Название товара',desc:'Описание',photo:'Фото',start:'Начальная цена (TMT)',step:'Мин. шаг (TMT)',dur:'Длительность',phone:'Телефон (необязательно)',gmail:'Gmail (обязательно)',publish:'Опубликовать',seller:'Продавец',leader:'Лидер',nobid:'Нет ставок',cur:'Текущая цена',bidb:'Сделать ставку',ended:'Аукцион завершён',own:'Ваш аукцион',empty:'Нет аукционов',comments:'Комментарии',cmt_ph:'Напишите комментарий...',send:'Отправить',won:'Выигранные товары',mine:'Мои лоты',edit:'Настройки',uname:'Имя',bio:'О себе',avatar:'Аватар',save:'Сохранить',chat:'Чат',msg_ph:'Сообщение...',needlogin:'Сначала войдите!',gerr:'Введите адрес @gmail.com!',err:'Ошибка: ',views:'просмотров',win:'Победитель',wait:'Победителя нет',saved:'Сохранено',live:'Идёт',contact:'Контакты',chatonly:'Чат открывается после окончания аукциона'}};
 const t=k=>D[lang][k]||k;
 function tr(){document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.querySelectorAll('[data-ph]').forEach(e=>e.placeholder=t(e.dataset.ph));$('lang').value=lang;navBar()}
 function setLang(l){lang=l;localStorage.lang=l;tr();render()}
@@ -107,6 +167,18 @@ const openM=id=>$(id).classList.add('on');
 function closeM(id){$(id).classList.remove('on');if(id==='chat'&&chatCh){db.removeChannel(chatCh);chatCh=null}}
 const uname=id=>P[id]?.username||'User';
 const av=id=>{const p=P[id]||{};return p.avatar_url?`<img class="av" src="${esc(p.avatar_url)}">`:`<span class="av">${esc(uname(id)[0]||'?').toUpperCase()}</span>`};
+const ic=(d,f)=>`<svg viewBox="0 0 24 24" width="19" height="19" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const I={h:f=>ic('<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>',f),
+c:ic('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
+e:ic('<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'),
+b:ic('<path d="M15 18l-6-6 6-6"/>'),s:ic('<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>'),
+p:ic('<path d="M21.4 11l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/>'),
+m:ic('<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>')};
+document.addEventListener('contextmenu',e=>{if(e.target.closest('.card,.stats,.av,header,button,.ch-h,.tb,.fab'))e.preventDefault()});
+function toast(m,type){const d=document.createElement('div');d.className='toast '+(type||'');d.innerHTML=`<i>${type==='err'?'!':'✓'}</i><span>${esc(m)}</span>`;$('toasts').appendChild(d);setTimeout(()=>d.remove(),2800)}
+function errMsg(e){const m=String(e&&e.message||e).toLowerCase();console.error(e);
+ const M=[['bid too low','e_low'],['auction ended','e_end'],['own auction','e_own'],['login required','needlogin'],['invalid login','e_login'],['already registered','e_exist'],['password','e_pass'],['fetch','e_net'],['network','e_net']];
+ for(const[k,v]of M)if(m.includes(k))return t(v);return t('e_gen')}
 const ended=a=>new Date(a.ends_at)<=new Date();
 async function upload(file,folder){const n=`${folder}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g,'')}`;const{error}=await db.storage.from('auction-images').upload(n,file);if(error)throw error;return db.storage.from('auction-images').getPublicUrl(n).data.publicUrl}
 
@@ -124,7 +196,7 @@ async function loadAll(){
   P={};(p.data||[]).forEach(x=>P[x.id]=x);A=a.data||[];L=l.data||[];C=c.data||[];
   navBar();render();
 }
-function navBar(){
+function navBar(){$('fab').style.display=me?'flex':'none';
   $('nav').innerHTML=me?`<a class="u" onclick="openProfile('${me.id}','won')">${av(me.id)} ${esc(uname(me.id))}</a><button onclick="openM('create')">${t('add')}</button><button class="sec" onclick="logout()">${t('logout')}</button>`:`<button onclick="openM('auth')">${t('login')} / ${t('signup')}</button>`;
 }
 function render(){
@@ -134,9 +206,9 @@ function render(){
     const nb=Number(a.current_price)+(a.winner_id?Number(a.min_step):0),e=ended(a);
     const lk=L.filter(x=>x.auction_id===a.id),liked=me&&lk.some(x=>x.user_id===me.id);
     return `<div class="card"><img class="im" src="${esc(a.image_url||'https://via.placeholder.com/400x210/151821/f5b942?text=AUKSION')}" onclick="openDetail('${a.id}')">
-    <div class="cb"><div class="muted">${t('seller')}: <a class="u" onclick="openProfile('${a.seller_id}','mine')">${esc(uname(a.seller_id))}</a></div>
+    <div class="cb"><div class="sl">${av(a.seller_id)}<a class="u" onclick="openProfile('${a.seller_id}','mine')">${esc(uname(a.seller_id))}</a><span class="muted">· ${t('seller')}</span></div>
     <div class="ct" onclick="openDetail('${a.id}')">${esc(a.title)}</div>
-    <div class="stats"><span class="${liked?'liked':''}" onclick="like('${a.id}')">${liked?'❤️':'🤍'} ${lk.length}</span><span onclick="openDetail('${a.id}')">💬 ${C.filter(x=>x.auction_id===a.id).length}</span><span>👁 ${a.views||0}</span></div>
+    <div class="stats"><button class="pill ${liked?'liked':''}" onclick="like('${a.id}')">${I.h(liked)} ${lk.length}</button><button class="pill" onclick="openDetail('${a.id}')">${I.c} ${C.filter(x=>x.auction_id===a.id).length}</button><span class="pill">${I.e} ${a.views||0}</span></div>
     <div class="pb"><div class="pr"><span class="muted">${t('cur')}</span><span class="price">${a.current_price} TMT</span></div>
     <div class="pr"><span class="muted">🏆 ${a.winner_id?esc(uname(a.winner_id)):t('nobid')}</span><span class="timer" data-e="${a.ends_at}"></span></div></div>
     ${e?`<button disabled>${t('ended')}</button>`:me&&me.id===a.seller_id?`<button class="sec" disabled>${t('own')}</button>`:`<div class="bid"><input id="b-${a.id}" type="number" value="${nb}" min="${nb}"><button onclick="bid('${a.id}')">${t('bidb')}</button></div>`}
@@ -145,31 +217,31 @@ function render(){
 }
 function timers(){document.querySelectorAll('.timer').forEach(el=>{const d=new Date(el.dataset.e)-new Date();if(d<=0){el.textContent='00:00:00';el.classList.remove('u');return}
   const dd=Math.floor(d/864e5),h=Math.floor(d%864e5/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3),p=n=>String(n).padStart(2,'0');
-  el.textContent=(dd?dd+'d ':'')+`${p(h)}:${p(m)}:${p(s)}`;el.classList.toggle('u',d<20000)})}
+  el.textContent=(dd?dd+t('dd')+' ':'')+`${p(h)}:${p(m)}:${p(s)}`;el.classList.toggle('u',d<20000)})}
 
 async function auth(type){
-  const email=$('a-email').value.trim(),password=$('a-pass').value;if(!email||!password)return;
+  const email=$('a-email').value.trim(),password=$('a-pass').value;if(!email||!password)return toast(t('fill'),'err');
   const{error}=type==='login'?await db.auth.signInWithPassword({email,password}):await db.auth.signUp({email,password});
-  if(error)alert(t('err')+error.message);else closeM('auth');
+  if(error)toast(errMsg(error),'err');else{closeM('auth');toast(t(type==='login'?'ok_login':'ok_signup'))}
 }
-const logout=()=>db.auth.signOut();
-async function bid(id){if(!me)return openM('auth');const{error}=await db.rpc('place_bid',{p_auction_id:id,p_amount:Number($('b-'+id).value)});if(error)alert(t('err')+error.message);else loadAll()}
+const logout=async()=>{await db.auth.signOut();closeM('profile');toast(t('ok_out'))};
+async function bid(id){if(!me)return openM('auth');const{error}=await db.rpc('place_bid',{p_auction_id:id,p_amount:Number($('b-'+id).value)});if(error)toast(errMsg(error),'err');else{loadAll();toast(t('ok_bid'))}}
 async function like(id){if(!me)return openM('auth');
   const has=L.some(x=>x.auction_id===id&&x.user_id===me.id);
   if(has)await db.from('likes').delete().match({auction_id:id,user_id:me.id});else await db.from('likes').insert({auction_id:id,user_id:me.id});
   loadAll();if($('detail').classList.contains('on'))openDetail(id,true)}
 
 async function createAuction(){
-  if(!me)return alert(t('needlogin'));
+  if(!me)return toast(t('needlogin'),'err');
   const title=$('c-title').value.trim(),price=Number($('c-price').value),gmail=$('c-gmail').value.trim();
-  if(!title||price<=0)return alert(t('err')+t('name_i'));
-  if(!/^[^\s@]+@gmail\.com$/i.test(gmail))return alert(t('gerr'));
+  if(!title||price<=0)return toast(t('fill'),'err');
+  if(!/^[^\s@]+@gmail\.com$/i.test(gmail))return toast(t('gerr'),'err');
   const b=$('c-btn');b.disabled=true;
   try{
     const f=$('c-img').files[0];const image_url=f?await upload(f,'items'):null;
     const{error}=await db.from('auctions').insert({seller_id:me.id,title,description:$('c-desc').value.trim(),image_url,start_price:price,current_price:price,min_step:Number($('c-step').value)||1,ends_at:new Date(Date.now()+Number($('c-dur').value)*6e4).toISOString(),phone:$('c-phone').value.trim()||null,gmail});
-    if(error)throw error;closeM('create');['c-title','c-desc','c-phone','c-gmail'].forEach(i=>$(i).value='');
-  }catch(e){alert(t('err')+e.message)}
+    if(error)throw error;closeM('create');toast(t('ok_pub'));['c-title','c-desc','c-phone','c-gmail'].forEach(i=>$(i).value='');
+  }catch(e){toast(errMsg(e),'err')}
   b.disabled=false;
 }
 
@@ -181,36 +253,41 @@ async function openDetail(id,noView){
   $('detail-c').innerHTML=`<button class="x" onclick="closeM('detail')">&times;</button>
   ${a.image_url?`<img src="${esc(a.image_url)}" style="width:100%;border-radius:12px;margin-bottom:10px">`:''}
   <h3>${esc(a.title)}</h3><p class="muted" style="margin:6px 0">${esc(a.description)}</p>
-  <p class="muted">${t('seller')}: <a class="u" onclick="openProfile('${a.seller_id}','mine')">${esc(uname(a.seller_id))}</a> · 👁 ${(a.views||0)+(noView?0:1)} ${t('views')}</p>
+  <p class="muted">${t('seller')}: <a class="u" onclick="openProfile('${a.seller_id}','mine')">${esc(uname(a.seller_id))}</a> · ${(a.views||0)+(noView?0:1)} ${t('views')}</p>
   <p class="muted">📞 ${esc(a.phone||'—')} · ✉️ ${esc(a.gmail||'—')}</p>
-  <div class="stats" style="margin:10px 0"><span class="${liked?'liked':''}" onclick="like('${id}')">${liked?'❤️':'🤍'} ${lk.length}</span></div>
-  <h4>${t('comments')}</h4>
-  ${(data||[]).map(c=>`<div class="cm">${av(c.user_id)} <b><a class="u" onclick="openProfile('${c.user_id}','mine')">${esc(uname(c.user_id))}</a></b>
-  ${me&&me.id===c.user_id?`<a class="u" style="float:right" onclick="delC('${c.id}','${id}')">🗑</a>`:''}<div>${esc(c.body)}</div></div>`).join('')}
-  <div class="bid" style="margin-top:10px"><input id="cm-in" placeholder="${t('cmt_ph')}" style="margin:0"><button onclick="postC('${id}')">${t('send')}</button></div>`;
+  <div class="stats" style="margin:10px 0"><button class="pill ${liked?'liked':''}" onclick="like('${id}')">${I.h(liked)} ${lk.length}</button></div>
+  <h4>${t('comments')} · ${(data||[]).length}</h4>
+  ${(data||[]).map(c=>`<div class="cm">${av(c.user_id)}<div class="cb2"><b><a class="u" onclick="openProfile('${c.user_id}','mine')">${esc(uname(c.user_id))}</a></b>${me&&me.id===c.user_id?` <a class="u" onclick="delC('${c.id}','${id}')">🗑</a>`:''}<div>${esc(c.body)}</div><small>${new Date(c.created_at).toLocaleString([],{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})}</small></div></div>`).join('')}
+  <div class="rx">${['👍','🔥','😍','👏','😂','😮'].map(e=>`<button class="chip" onclick="quick('${id}','${e}')">${e}</button>`).join('')}</div>
+  <div class="cin"><input id="cm-in" placeholder="${t('cmt_ph')}" onkeydown="if(event.key==='Enter')postC('${id}')"><button class="send" onclick="postC('${id}')">${I.s}</button></div>`;
   openM('detail');
 }
+function quick(id,e){$('cm-in').value=e;postC(id)}
 async function postC(id){if(!me)return openM('auth');const b=$('cm-in').value.trim();if(!b)return;
-  const{error}=await db.from('comments').insert({auction_id:id,user_id:me.id,body:b});if(error)alert(t('err')+error.message);else{loadAll();openDetail(id,true)}}
-async function delC(cid,id){await db.from('comments').delete().eq('id',cid);loadAll();openDetail(id,true)}
+  const{error}=await db.from('comments').insert({auction_id:id,user_id:me.id,body:b});if(error)toast(errMsg(error),'err');else{toast(t('ok_cmt'));loadAll();openDetail(id,true)}}
+async function delC(cid,id){await db.from('comments').delete().eq('id',cid);toast(t('ok_del'));loadAll();openDetail(id,true)}
 
 function row(a,other){
   const e=ended(a);
   return `<div class="row"><img src="${esc(a.image_url||'https://via.placeholder.com/56')}"><div style="flex:1"><b>${esc(a.title)}</b><div class="muted">${a.current_price} TMT · ${e?t('ended'):t('live')}</div>
   <div class="muted">${other?`${other[0]}: <a class="u" onclick="openProfile('${other[1]}','mine')">${esc(uname(other[1]))}</a>`:t('wait')}</div>
   ${other&&e?`<div class="muted">📞 ${esc(a.phone||'—')} ✉️ ${esc(a.gmail||'')}</div>`:''}</div>
-  ${other&&e?`<button onclick="openChat('${a.id}','${other[1]}')">💬 ${t('chat')}</button>`:''}</div>`;
+  ${other&&e?`<button onclick="openChat('${a.id}','${other[1]}')">${I.c} ${t('chat')}</button>`:''}</div>`;
 }
+function avBig(uid){return av(uid).replace('class="av"','class="av big"')}
+function avpv(el){const f=el.files[0];if(f)$('av-pv').innerHTML=`<img class="av big" src="${URL.createObjectURL(f)}">`}
 function openProfile(uid,tab){
   const own=me&&me.id===uid,p=P[uid]||{};
   let body='';
   if(tab==='won'&&own)body=A.filter(a=>a.winner_id===uid&&ended(a)).map(a=>row(a,[t('seller'),a.seller_id])).join('');
   else if(tab==='mine')body=A.filter(a=>a.seller_id===uid).map(a=>row(a,own&&a.winner_id?[t('win'),a.winner_id]:null)).join('');
-  else if(tab==='edit'&&own)body=`<label>${t('uname')}</label><input id="p-name" value="${esc(p.username)}"><label>${t('bio')}</label><textarea id="p-bio" rows="3">${esc(p.bio)}</textarea><label>${t('avatar')}</label><input type="file" id="p-av" accept="image/*"><button style="width:100%" onclick="saveProfile()">${t('save')}</button>`;
-  $('profile-c').innerHTML=`<button class="x" onclick="closeM('profile')">&times;</button>
-  <div style="display:flex;gap:12px;align-items:center">${av(uid).replace('class="av"','class="av" style="width:64px;height:64px;font-size:1.6rem"')}<div><h3>${esc(p.username)}</h3><div class="muted">${esc(p.bio)}</div></div></div>
-  <div class="tabs">${own?`<button class="${tab==='won'?'':'sec'}" onclick="openProfile('${uid}','won')">${t('won')}</button>`:''}<button class="${tab==='mine'?'':'sec'}" onclick="openProfile('${uid}','mine')">${t('mine')}</button>${own?`<button class="${tab==='edit'?'':'sec'}" onclick="openProfile('${uid}','edit')">${t('edit')}</button>`:''}</div>
-  ${body||(tab==='edit'?'':`<p class="muted">${t('empty')}</p>`)}`;
+  else if(tab==='edit'&&own)body=`<div class="erow"><label class="avedit"><span id="av-pv">${avBig(uid)}</span><span class="cam">${I.m}</span><input type="file" id="p-av" accept="image/*" hidden onchange="avpv(this)"></label><div style="flex:1"><label class="muted">${t('uname')}</label><input id="p-name" value="${esc(p.username)}"></div></div><label class="muted">${t('bio')}</label><textarea id="p-bio" rows="3">${esc(p.bio)}</textarea><button class="sv" onclick="saveProfile()">${t('save')}</button>`;
+  const nm=A.filter(a=>a.seller_id===uid).length,nw=A.filter(a=>a.winner_id===uid&&ended(a)).length;
+  $('profile-c').className='mc full';
+  $('profile-c').innerHTML=`<div class="tb"><button class="x2" onclick="closeM('profile')">${I.b}</button><b>${esc(p.username)}</b></div>
+  <div class="pbody"><div class="hero">${avBig(uid)}<h3>${esc(p.username)}</h3><div class="muted">${esc(p.bio)}</div><div class="cnt"><div><b>${nm}</b><span class="muted">${t('mine')}</span></div><div><b>${nw}</b><span class="muted">${t('won')}</span></div></div></div>
+  <div class="pin"><div class="tabs">${own?`<button class="${tab==='won'?'':'sec'}" onclick="openProfile('${uid}','won')">${t('won')}</button>`:''}<button class="${tab==='mine'?'':'sec'}" onclick="openProfile('${uid}','mine')">${t('mine')}</button>${own?`<button class="${tab==='edit'?'':'sec'}" onclick="openProfile('${uid}','edit')">${t('edit')}</button>`:''}</div>
+  ${body||(tab==='edit'?'':`<p class="muted">${t('empty')}</p>`)}</div></div>`;
   openM('profile');
 }
 async function saveProfile(){
@@ -218,24 +295,29 @@ async function saveProfile(){
     const u={username:$('p-name').value.trim()||uname(me.id),bio:$('p-bio').value.trim()};
     const f=$('p-av').files[0];if(f)u.avatar_url=await upload(f,'avatars');
     const{error}=await db.from('profiles').update(u).eq('id',me.id);if(error)throw error;
-    await loadAll();openProfile(me.id,'edit');
-  }catch(e){alert(t('err')+e.message)}
+    await loadAll();openProfile(me.id,'edit');toast(t(f?'ok_av':'ok_prof'));
+  }catch(e){toast(errMsg(e),'err')}
 }
 
 async function openChat(aid,other){
-  curChat={aid,other};
-  $('chat-c').innerHTML=`<button class="x" onclick="closeM('chat')">&times;</button><h3>${av(other)} ${esc(uname(other))}</h3>
-  <div class="msgs" id="msgs"></div>
-  <input id="m-in" placeholder="${t('msg_ph')}" onkeydown="if(event.key==='Enter')sendMsg()">
-  <div class="bid"><input type="file" id="m-img" accept="image/*" style="margin:0"><button onclick="sendMsg()">${t('send')}</button></div>`;
+  curChat={aid,other};const a=A.find(x=>x.id===aid)||{};
+  $('chat-c').className='mc full chat';
+  $('chat-c').innerHTML=`<div class="ch-h tb"><button class="x2" onclick="closeM('chat')">${I.b}</button>${av(other)}<div><b>${esc(uname(other))}</b><div class="muted">${esc(a.title)}</div></div></div>
+  <div class="msgs" id="msgs"><div class="ld"><div class="dots"><span></span><span></span><span></span></div><p>${t('chatload')}</p></div></div><div class="pv" id="pv"></div>
+  <div class="ch-in"><label class="clip">${I.p}<input type="file" id="m-img" accept="image/*" hidden onchange="pv()"></label>
+  <input type="text" id="m-in" placeholder="${t('msg_ph')}" onkeydown="if(event.key==='Enter')sendMsg()"><button class="send" onclick="sendMsg()">${I.s}</button></div>`;
   openM('chat');await loadMsgs();
   if(chatCh)db.removeChannel(chatCh);
   chatCh=db.channel('chat-'+aid).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`auction_id=eq.${aid}`},loadMsgs).subscribe();
 }
+function pv(){const f=$('m-img').files[0],b=$('pv');if(!f){b.style.display='none';return}
+  b.style.display='flex';b.innerHTML=`<img src="${URL.createObjectURL(f)}"><button class="sec" onclick="$('m-img').value='';pv()">✕</button>`}
 async function loadMsgs(){
   const{data}=await db.from('messages').select('*').eq('auction_id',curChat.aid).order('created_at');
   const box=$('msgs');if(!box)return;
-  box.innerHTML=(data||[]).filter(m=>[m.sender_id,m.receiver_id].includes(curChat.other)).map(m=>`<div class="m ${m.sender_id===me.id?'me':''}">${m.image_url?`<img src="${esc(m.image_url)}" onclick="window.open(this.src)">`:''}${esc(m.body)}</div>`).join('');
+  box.innerHTML=(data||[]).filter(m=>[m.sender_id,m.receiver_id].includes(curChat.other)).map(m=>{
+    const tm=new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    return `<div class="m ${m.sender_id===me.id?'me':''} ${m.image_url&&!m.body?'ph':''}">${m.image_url?`<img src="${esc(m.image_url)}" onclick="window.open(this.src)">`:''}${m.body?esc(m.body):''}<i>${tm}${m.sender_id===me.id?' ✓✓':''}</i></div>`}).join('');
   box.scrollTop=box.scrollHeight;
 }
 async function sendMsg(){
@@ -243,8 +325,8 @@ async function sendMsg(){
   try{
     const image_url=f?await upload(f,'chat'):null;
     const{error}=await db.from('messages').insert({auction_id:curChat.aid,sender_id:me.id,receiver_id:curChat.other,body:body||null,image_url});
-    if(error)throw error;$('m-in').value='';$('m-img').value='';loadMsgs();
-  }catch(e){alert(t('err')+e.message)}
+    if(error)throw error;$('m-in').value='';$('m-img').value='';pv();loadMsgs();if(image_url)toast(t('ok_photo'));
+  }catch(e){toast(errMsg(e),'err')}
 }
 init();
 </script>
